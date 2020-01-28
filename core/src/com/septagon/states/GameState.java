@@ -51,6 +51,9 @@ public class GameState extends State
     private ArrayList<Engine> engines;
     private Engine engine1;
     private Engine engine2;
+    private Engine engine3;
+    private Engine engine4;
+
 
     //Loads textures and creates objects for the fortresses
     private ArrayList<Fortress> fortresses;
@@ -117,6 +120,8 @@ public class GameState extends State
         //Initialises all engines, fortress and stations in the game
         engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 6, 100, 4, 01);
         engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 10, 4, 8, 100, 4, 02);
+        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 15, 4, 8, 100, 4, 03 );
+        engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 100,15,4,6, 100, 4, 04);
         fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 3);
         fortressMinister = new Fortress(11, 41, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 100, 20, 3);
         fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 100, 20, 3);
@@ -133,11 +138,17 @@ public class GameState extends State
         engine1.setRow(fireStation.getRow() - 1);
         engine2.setCol(fireStation.getCol() + 3);
         engine2.setRow(fireStation.getRow() - 1);
+        engine3.setCol(fireStation.getCol() + 1);
+        engine3.setRow(fireStation.getRow() - 1);
+        engine4.setCol(fireStation.getCol() + 1);
+        engine4.setRow(fireStation.getRow() - 2);
 
         //Adds all the engines to the ArrayList of engines
         engines = new ArrayList<Engine>();
         engines.add(engine1);
         engines.add(engine2);
+        engines.add(engine3);
+        engines.add(engine4);
 
         font.getData().setScale(Gdx.graphics.getWidth() / VP_WIDTH, Gdx.graphics.getHeight() / VP_HEIGHT);
 

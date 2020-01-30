@@ -113,7 +113,7 @@ public class AttackerManager
     {
         //Loops through all tiles to see if it has been pressed
         for(Tile t: tiles) {
-            //When we have found the tile that has been pressed, perform neccessary processing
+            //When we have found the tile that has been pressed, perform necessary processing
             if(t.checkIfClickedInside(x, y)) {
                 //updated the pointers to the current and previous tiles
                 previouslyTouchedTile = currentlyTouchedTile;

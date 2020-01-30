@@ -150,7 +150,7 @@ public class TileManager {
         resetMovableTiles();
 
         //Gets all the moveable tiles in the up direction
-        for(int i = 1; i <= currentEngine.getSpeed(); i++){
+    /*    for(int i = 1; i <= currentEngine.getSpeed(); i++){
             Tile nextTile = this.getTileAtLocation(currentEngine.getCol(), currentEngine.getRow() + i);
             if(nextTile != null) {
                 if (!nextTile.isOccupied()) {
@@ -179,7 +179,7 @@ public class TileManager {
             }else break;
         }
 
-        //Gets all the moveable tiles in the right direction
+        //Gets all the movable tiles in the right direction
         for(int i = 1; i <= currentEngine.getSpeed(); i++){
             Tile nextTile = this.getTileAtLocation(currentEngine.getCol() + i, currentEngine.getRow());
             if(nextTile != null) {
@@ -189,11 +189,13 @@ public class TileManager {
             }else break;
         }
 
-        //Get the diagonal moveable tiles
-        int loopCounter = 1;
-        while(loopCounter <= currentEngine.getSpeed() - 1)
+     */
+
+        //Get the diagonal movable tiles
+        int loopCounter = 0;
+        while(loopCounter <= currentEngine.getSpeed())
         {
-            for (int i = 1; i <= currentEngine.getSpeed() - loopCounter; i++)
+            for (int i = 0; i <= currentEngine.getSpeed() - loopCounter; i++)
             {
                 Tile nextTile = this.getTileAtLocation(currentEngine.getCol() - i, currentEngine.getRow() - loopCounter);
                 if (nextTile != null)
@@ -202,6 +204,7 @@ public class TileManager {
                     {
                         nextTile.setMovable(true);
                     }
+
                 }
 
                 nextTile = this.getTileAtLocation(currentEngine.getCol() + i, currentEngine.getRow() - loopCounter);
@@ -211,6 +214,7 @@ public class TileManager {
                     {
                         nextTile.setMovable(true);
                     }
+
                 }
 
                 nextTile = this.getTileAtLocation(currentEngine.getCol() - i, currentEngine.getRow() + loopCounter);
@@ -220,6 +224,7 @@ public class TileManager {
                     {
                         nextTile.setMovable(true);
                     }
+
                 }
 
                 nextTile = this.getTileAtLocation(currentEngine.getCol() + i, currentEngine.getRow() + loopCounter);
@@ -229,6 +234,7 @@ public class TileManager {
                     {
                         nextTile.setMovable(true);
                     }
+
                 }
             }
             loopCounter++;

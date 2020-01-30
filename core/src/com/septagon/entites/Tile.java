@@ -16,6 +16,8 @@ public class Tile extends Entity
     private boolean occupied;
     //Variable to see if the tile can be moved to by one of the engines
     private boolean movable = false;
+    //Cost to move across the tile
+    private float tileWeight = 1.0f;
 
     /***
      *Constructor that sets up initial values for all member variables
@@ -51,4 +53,8 @@ public class Tile extends Entity
     //Getters
     public boolean isMovable() { return movable; }
     public boolean isOccupied() { return occupied; }
+
+    public float getTileWeight(){
+        return this.tileWeight;
+    }
 }

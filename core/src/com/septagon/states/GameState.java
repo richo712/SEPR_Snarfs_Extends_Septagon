@@ -61,6 +61,9 @@ public class GameState extends State
     private Fortress fortressStation;
     private Fortress fortressMinister;
 
+    private ArrayList<Alien> aliens;
+    private Alien alien;
+
     //Loads textures and creates an object for the fire station
     private Station fireStation;
 
@@ -118,20 +121,27 @@ public class GameState extends State
     public void initialise()
     {
         //Initialises all engines, fortress and stations in the game
-        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 6, 100, 4, 01);
-        engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 10, 4, 8, 100, 4, 02);
-        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 15, 4, 8, 100, 4, 03 );
-        engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 100,15,4,6, 100, 4, 04);
+        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 01);
+        engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 10, 4, 16, 100, 4, 02);
+        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 03 );
+        engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 100,15,4,16, 100, 4, 04);
         fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 3);
         fortressMinister = new Fortress(11, 41, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 100, 20, 3);
         fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 100, 20, 3);
         fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture());
+
+        aliens = new ArrayList<Alien>();
+        alien = new Alien(0,0, 32,32, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100);
+        aliens.add(alien);
 
         //Adds all the fortresses to the ArrayList of fortresses
         fortresses = new ArrayList<Fortress>();
         fortresses.add(fortressFire);
         fortresses.add(fortressMinister);
         fortresses.add(fortressStation);
+
+        alien.setCol(1);
+        alien.setRow(1);
 
         //Sets the engines positions so that they start from the fireStation
         engine1.setCol(fireStation.getCol() + 5);
@@ -162,6 +172,9 @@ public class GameState extends State
         for(Engine e: engines)
         {
             entityManager.addEntity(e);
+        }
+        for(Alien a : aliens){
+            entityManager.addEntity(a);
         }
 
         // Intialises the game viewport and spritebatch
@@ -289,6 +302,9 @@ public class GameState extends State
         if(!hasChangedFortress){
             //If all fortresses have been displayed, go back to the player turn
             if(currentFortressIndex >= fortresses.size()){
+                for(Alien a: aliens){
+                    a.move();
+                }
                 currentFortressIndex = 0;
                 //If the fortresses have destroyed all engines, finish the game
                 if(attackerManager.checkIfAllEnginesDead()){
@@ -337,7 +353,7 @@ public class GameState extends State
         else
         {
             counter++;
-            if(counter >= 180){
+            if(counter >= 80){
                 hasChangedFortress = false;
                 currentFortressIndex++;
                 counter = 0;

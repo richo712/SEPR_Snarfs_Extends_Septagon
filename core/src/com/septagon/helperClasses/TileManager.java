@@ -148,50 +148,7 @@ public class TileManager {
     public void setMovableTiles(Engine currentEngine){
         //Reset all moveable tiles from previous turn
         resetMovableTiles();
-
-        //Gets all the moveable tiles in the up direction
-    /*    for(int i = 1; i <= currentEngine.getSpeed(); i++){
-            Tile nextTile = this.getTileAtLocation(currentEngine.getCol(), currentEngine.getRow() + i);
-            if(nextTile != null) {
-                if (!nextTile.isOccupied()) {
-                    nextTile.setMovable(true);
-                } else break;
-            }else break;
-        }
-
-        //Gets all the moveable tiles in the down direction
-        for(int i = 1; i <= currentEngine.getSpeed(); i++){
-            Tile nextTile = this.getTileAtLocation(currentEngine.getCol(), currentEngine.getRow() - i);
-            if(nextTile != null) {
-                if (!nextTile.isOccupied()) {
-                    nextTile.setMovable(true);
-                } else break;
-            }else break;
-        }
-
-        //Gets all the moveable tiles in the left direction
-        for(int i = 1; i <= currentEngine.getSpeed(); i++){
-            Tile nextTile = this.getTileAtLocation(currentEngine.getCol() - i, currentEngine.getRow());
-            if(nextTile != null) {
-                if (!nextTile.isOccupied()) {
-                    nextTile.setMovable(true);
-                } else break;
-            }else break;
-        }
-
-        //Gets all the movable tiles in the right direction
-        for(int i = 1; i <= currentEngine.getSpeed(); i++){
-            Tile nextTile = this.getTileAtLocation(currentEngine.getCol() + i, currentEngine.getRow());
-            if(nextTile != null) {
-                if (!nextTile.isOccupied()) {
-                    nextTile.setMovable(true);
-                } else break;
-            }else break;
-        }
-
-     */
-
-        //Get the diagonal movable tiles
+        //Get the movable tiles
         int loopCounter = 0;
         while(loopCounter <= currentEngine.getSpeed())
         {

@@ -6,6 +6,8 @@ package com.septagon.entites;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -88,6 +90,22 @@ public class TiledGameMap
 		}
 		//If either the cell or the tile doesn't exist, return null
 		return null;
+	}
+
+	/**
+	 * Returns an arrayList of tiles next to a given tile,
+	 * giving nothing for tiles that do not exist.
+	 * @param tile - A map tile
+	 * @return - An ArrayList of tiles adjacent to the given tile
+	 */
+	public ArrayList<Tile> getAdjacentTiles(Tile tile){
+		ArrayList<Tile> result = new ArrayList<>();
+		result.add(getTileByCoordinate(0, tile.getCol()+1, tile.getRow()));
+		result.add(getTileByCoordinate(0, tile.getCol(), tile.getRow()+1));
+		result.add(getTileByCoordinate(0, tile.getCol()-1, tile.getRow()));
+		result.add(getTileByCoordinate(0, tile.getCol(), tile.getRow()-1));
+		result.removeAll(Collections.singleton(null));
+		return result;
 	}
 
 	//Getters

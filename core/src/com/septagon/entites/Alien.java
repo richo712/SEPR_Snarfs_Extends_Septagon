@@ -1,12 +1,13 @@
 package com.septagon.entites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.septagon.helperClasses.Maths;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Alien extends Attacker {
 
-    private int speed, vision, target_x, target_y;
+    private int speed, vision, targetCol, targetRow;
 
     public Alien(int col, int row, int width, int height, Texture texture, int health, int damage, int range, int speed, int vision){
         super(col, row, width, height, texture, health, damage, range);
@@ -26,25 +27,38 @@ public class Alien extends Attacker {
                 closest_engine = e;
             }
 
-            int distX = Math.abs(e.getCol() - this.col);
-            int distY = Math.abs(e.getRow() - this.row);
-            int distance = distX + distY;
-            if( (distX <= vision) && (distY <= vision) && (distance < closest_distance) ){
+            int distance = Maths.manDistance(this.col, this.row, e.getCol(), e.getRow());
+            if( distance < this.vision && (distance < closest_distance) ){
                 closest_engine = e;
                 closest_distance = distance;
                 }
 
             }
 
-        this.target_x = closest_engine.getX();
-        this.target_y = closest_engine.getY();
+        this.targetRow = closest_engine.getRow();
+        this.targetCol = closest_engine.getCol();
 
     }
 
-    public void move(){
-        this.x+= 64;
-        System.out.println("!!!");
-        System.out.println(this.x);
+
+    public void move(TiledGameMap map, ArrayList<Engine> engines){
+        findTargetEngine(engines);
+        ArrayList<Tile> pathArray = Maths.findPathTo(this.col, this.row, this.targetCol-1, this.targetRow-1, map);
+        float costTotal = 0;
+        Tile targetTile = null;
+        for (Tile t : pathArray){
+            if (costTotal+t.getTileCost() < speed){
+                costTotal += t.getTileCost();
+                targetTile = t;
+            } else{
+                break;
+            }
+        }
+        if (targetTile != null){
+            this.setCol(pathArray.get(pathArray.size() -1).getCol());
+            this.setRow(pathArray.get(pathArray.size() -1).getRow());
+        }
+
     }
 
     public int getSpeed(){

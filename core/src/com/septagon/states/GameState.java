@@ -303,7 +303,7 @@ public class GameState extends State
             //If all fortresses have been displayed, go back to the player turn
             if(currentFortressIndex >= fortresses.size()){
                 for(Alien a: aliens){
-                    a.move();
+                    a.move(gameMap, engines);
                 }
                 currentFortressIndex = 0;
                 //If the fortresses have destroyed all engines, finish the game
@@ -353,7 +353,7 @@ public class GameState extends State
         else
         {
             counter++;
-            if(counter >= 80){
+            if(counter >= 10){
                 hasChangedFortress = false;
                 currentFortressIndex++;
                 counter = 0;

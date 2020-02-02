@@ -42,7 +42,7 @@ public abstract class Entity
     /***
      * Update method that can be overwritten by subclasses and used to update the entity each frame of the game
      */
-    public void update() {};
+    public void update() {}
 
     /***
      * Basic render method that is used to draw the texture of the entity at its position
@@ -85,6 +85,10 @@ public abstract class Entity
     {
         this.row = row;
         this.y = row * Tile.TILE_SIZE;
+    }
+    public void setPosition(int col, int row){
+        setCol(col);
+        setRow(row);
     }
     public void setTexture(Texture texture){ this.texture = texture; }
 

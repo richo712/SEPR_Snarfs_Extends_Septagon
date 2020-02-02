@@ -19,49 +19,45 @@ public class Alien extends Attacker {
     }
 
     private void findTargetEngine(ArrayList<Engine> engines){
-        Engine closest_engine = null;
-        int closest_distance = Integer.MAX_VALUE;
+        Engine closestEngine = null;
+        int closestDistance = Integer.MAX_VALUE;
         for (Engine e : engines){
 
-            if (closest_engine == null){
-                closest_engine = e;
+            if (closestEngine == null){
+                closestEngine = e;
             }
 
-            int distance = Maths.manDistance(this.col, this.row, e.getCol(), e.getRow());
-            if( distance < this.vision && (distance < closest_distance) ){
-                closest_engine = e;
-                closest_distance = distance;
+            int distance = Maths.manDistance(this.getCol(), this.getRow(), e.getCol(), e.getRow());
+            if( distance < this.vision && (distance < closestDistance) ){
+                closestEngine = e;
+                closestDistance = distance;
                 }
 
             }
 
-        this.targetRow = closest_engine.getRow();
-        this.targetCol = closest_engine.getCol();
+        this.targetRow = closestEngine.getRow();
+        this.targetCol = closestEngine.getCol();
 
     }
 
 
     public void move(TiledGameMap map, ArrayList<Engine> engines){
-        findTargetEngine(engines);
+        findTargetEngine(engines); //Find a target
+        //Get of an arrayList of tiles that give a path to that target
         ArrayList<Tile> pathArray = Maths.findPathTo(this.col, this.row, this.targetCol-1, this.targetRow-1, map);
         float costTotal = 0;
-        Tile targetTile = null;
+        Tile targetTile = map.getTileByCoordinate(0, this.getCol(), this.getRow());
         for (Tile t : pathArray){
-            if (costTotal+t.getTileCost() < speed){
+            if (costTotal+t.getTileCost() < speed){ //If the cost to get to the next tile, is below the speed of the alien
                 costTotal += t.getTileCost();
                 targetTile = t;
             } else{
                 break;
             }
         }
-        if (targetTile != null){
-            this.setCol(pathArray.get(pathArray.size() -1).getCol());
-            this.setRow(pathArray.get(pathArray.size() -1).getRow());
-        }
-
+        this.setPosition(targetTile.getCol(), targetTile.getRow());
     }
 
-    public int getSpeed(){
-        return speed;
-    }
+    public int getSpeed(){ return this.speed; }
+    public int getVision(){ return this.vision;}
 }

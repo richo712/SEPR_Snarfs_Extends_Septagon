@@ -2,12 +2,14 @@ package com.septagon.entites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.septagon.helperClasses.Maths;
+import com.septagon.states.GameState;
 
 import java.util.*;
 
 public class Alien extends Attacker {
 
     private int speed, vision, targetCol, targetRow;
+    private Engine targetEngine;
 
     public Alien(int col, int row, int width, int height, Texture texture, int health, int damage, int range, int speed, int vision){
         super(col, row, width, height, texture, health, damage, range);
@@ -34,28 +36,44 @@ public class Alien extends Attacker {
                 }
 
             }
-
-        this.targetRow = closestEngine.getRow();
-        this.targetCol = closestEngine.getCol();
+        if (closestDistance < this.vision) {
+            this.targetRow = closestEngine.getRow();
+            this.targetCol = closestEngine.getCol();
+            this.targetEngine = closestEngine;
+        } else{
+            this.targetEngine = null;
+        }
 
     }
 
+    public void DamageEngineIfInRange(){
+        if (this.targetEngine != null){
+            int distance = Maths.manDistance(this, this.targetEngine);
+            if (distance < this.getRange()){
+                this.targetEngine.takeDamage(this.damage);
+                GameState.bullets.add(new Bullet(this.getX(), this.getY(), this.targetEngine.getX(), this.targetEngine.getY(), false));
+            }
+        }
+        System.out.println("Alien attacking");
+    }
 
     public void move(TiledGameMap map, ArrayList<Engine> engines){
         findTargetEngine(engines); //Find a target
         //Get of an arrayList of tiles that give a path to that target
-        ArrayList<Tile> pathArray = Maths.findPathTo(this.col, this.row, this.targetCol-1, this.targetRow-1, map);
-        float costTotal = 0;
-        Tile targetTile = map.getTileByCoordinate(0, this.getCol(), this.getRow());
-        for (Tile t : pathArray){
-            if (costTotal+t.getTileCost() < speed){ //If the cost to get to the next tile, is below the speed of the alien
-                costTotal += t.getTileCost();
-                targetTile = t;
-            } else{
-                break;
+        if (this.targetEngine != null) {
+            ArrayList<Tile> pathArray = Maths.findPathTo(this.col, this.row, this.targetCol - 1, this.targetRow - 1, map);
+            float costTotal = 0;
+            Tile targetTile = map.getTileByCoordinate(0, this.getCol(), this.getRow());
+            for (Tile t : pathArray) {
+                if (costTotal + t.getTileCost() < speed) { //If the cost to get to the next tile, is below the speed of the alien
+                    costTotal += t.getTileCost();
+                    targetTile = t;
+                } else {
+                    break;
+                }
             }
+            this.setPosition(targetTile.getCol(), targetTile.getRow());
         }
-        this.setPosition(targetTile.getCol(), targetTile.getRow());
     }
 
     public int getSpeed(){ return this.speed; }

@@ -131,7 +131,7 @@ public class GameState extends State
         fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture());
 
         aliens = new ArrayList<Alien>();
-        alien = new Alien(0,0, 32,32, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100);
+        alien = new Alien(1,2, 32,32, AssetManager.getEngineTexture1(), 100, 5, 4, 4, 15);
         aliens.add(alien);
 
         //Adds all the fortresses to the ArrayList of fortresses
@@ -139,9 +139,6 @@ public class GameState extends State
         fortresses.add(fortressFire);
         fortresses.add(fortressMinister);
         fortresses.add(fortressStation);
-
-        alien.setCol(1);
-        alien.setRow(1);
 
         //Sets the engines positions so that they start from the fireStation
         engine1.setCol(fireStation.getCol() + 5);
@@ -177,7 +174,7 @@ public class GameState extends State
             entityManager.addEntity(a);
         }
 
-        // Intialises the game viewport and spritebatch
+        // Initialises the game viewport and spritebatch
         viewport = new ExtendViewport(VP_WIDTH, VP_HEIGHT, camera);
         objectBatch = new SpriteBatch();
         objectBatch.setProjectionMatrix(camera.combined);
@@ -208,7 +205,7 @@ public class GameState extends State
         }
 
         //Initialises the statusBarRenderer object
-        statusBarGenerator = new StatusBarGenerator(engines, fortresses);
+        statusBarGenerator = new StatusBarGenerator(engines, fortresses, aliens);
 
         //Sets up all the occupied tiles on the map so they cannot be moved to
         tileManager = new TileManager(engines, tiles);
@@ -304,6 +301,10 @@ public class GameState extends State
             if(currentFortressIndex >= fortresses.size()){
                 for(Alien a: aliens){
                     a.move(gameMap, engines);
+                    a.DamageEngineIfInRange(); //TODO: move this, not sure where it should go
+                }
+                for(Engine engine: engines){
+                    engine.damageAliensIfInRange(aliens);
                 }
                 currentFortressIndex = 0;
                 //If the fortresses have destroyed all engines, finish the game

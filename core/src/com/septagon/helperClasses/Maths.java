@@ -1,5 +1,6 @@
 package com.septagon.helperClasses;
 
+import com.septagon.entites.Entity;
 import com.septagon.entites.Tile;
 import com.septagon.entites.TiledGameMap;
 
@@ -18,7 +19,9 @@ public class Maths {
         return xDif + yDif;
     }
 
-
+    public static int manDistance(Entity e1, Entity e2){
+        return manDistance(e1.getCol(), e1.getRow(), e2.getCol(), e2.getRow());
+    }
 
     public static ArrayList<Tile> findPathTo(int startCol, int startRow, int goalCol, int goalRow, TiledGameMap map){
         class Node{

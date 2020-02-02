@@ -8,6 +8,7 @@ package com.septagon.helperClasses;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.septagon.entites.Alien;
 import com.septagon.entites.Attacker;
 import com.septagon.entites.Engine;
 import com.septagon.entites.Fortress;
@@ -21,10 +22,12 @@ public class StatusBarGenerator
 
     private ArrayList<Engine> engines;
     private ArrayList<Fortress> fortresses;
+    private ArrayList<Alien> aliens;
 
-    public StatusBarGenerator(ArrayList<Engine> engines, ArrayList<Fortress> fortresses){
+    public StatusBarGenerator(ArrayList<Engine> engines, ArrayList<Fortress> fortresses, ArrayList<Alien> aliens){
         this.engines = engines;
         this.fortresses = fortresses;
+        this.aliens = aliens;
         barRenderer = new ShapeRenderer();
     }
 
@@ -35,12 +38,15 @@ public class StatusBarGenerator
         barRenderer.setProjectionMatrix(camera.combined);
 
         //Render the health bar for all entities in the game
-        for(Engine e: engines){
+        for(Engine e: this.engines){
             renderHealthBarForAttacker(e);
             renderWaterBarForEngine(e);
         }
-        for(Fortress f: fortresses){
+        for(Fortress f: this.fortresses){
             renderHealthBarForAttacker(f);
+        }
+        for(Alien a: this.aliens){
+            renderHealthBarForAttacker(a);
         }
     }
 

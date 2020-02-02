@@ -94,7 +94,7 @@ public class TiledGameMap
 
 	/**
 	 * Returns an arrayList of tiles next to a given tile,
-	 * giving nothing for tiles that do not exist.
+	 * giving null for tiles that do not exist.
 	 * @param tile - A map tile
 	 * @return - An ArrayList of tiles adjacent to the given tile
 	 */

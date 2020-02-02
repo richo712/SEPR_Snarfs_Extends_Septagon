@@ -6,7 +6,10 @@ package com.septagon.entites;
  */
 
 import com.badlogic.gdx.graphics.Texture;
+import com.septagon.helperClasses.Maths;
 import com.septagon.states.GameState;
+
+import java.util.ArrayList;
 
 public class Engine extends Vehicle
 {
@@ -47,8 +50,9 @@ public class Engine extends Vehicle
     /**
      * Calls to update the required variables when the engine fires at a fortress
      */
-    public void fire(){
+    public void fire(Attacker target){
         this.volume -= this.damage;
+        target.takeDamage(this.damage);
     }
 
 
@@ -78,16 +82,26 @@ public class Engine extends Vehicle
         this.setRangeCorners();
         if(checkForOverlap(f)){
             if (this.volume >= this.damage){
-                this.fire();
-                f.takeDamage(this.damage);
+                this.fire(f);
                 GameState.bullets.add(new Bullet(this.x + 20, this.y + 10, f.x + 150, f.y + 50, true));
                 GameState.bullets.add(new Bullet(this.x, this.y, f.x + 150, f.y + 50, true));
                 GameState.bullets.add(new Bullet(this.x + 40, this.y + 20, f.x + 150, f.y + 50, true));
             }
         }
-
     }
 
+    /**
+     * Checks if engine can attack an ArrayList of aliens, it will spawn water and damage each one in range
+     * @param aliens - ArrayList of aliens to see if engine can attack
+     */
+    public void damageAliensIfInRange(ArrayList<Alien> aliens){
+        for(Alien alien: aliens) {
+            if (Maths.manDistance(this, alien) < this.range) {
+                this.fire(alien);
+                GameState.bullets.add(new Bullet(this.x + 20, this.y + 10, alien.x + 16, alien.y + 16, true));
+            }
+        }
+    }
     //Getters and Setters
     public int getMaxVolume()
     {

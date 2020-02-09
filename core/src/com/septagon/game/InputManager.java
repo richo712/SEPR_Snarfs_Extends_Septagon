@@ -30,6 +30,7 @@ public class InputManager implements InputProcessor
     private float xCoord;
     private float yCoord;
 
+    //For the minigame to see if the right or left buttons are being held down
     public static boolean moveRight = false;
     public static boolean moveLeft = false;
 
@@ -268,9 +269,9 @@ public class InputManager implements InputProcessor
         }
 
 
-    //Unused override methods that are required since we are implementing InputProcessor
     @Override
     public boolean keyUp (int keycode) {
+        //Tells minigame to stop moving the engine
         if (keycode == Input.Keys.RIGHT){
             this.moveRight = false;
         }

@@ -19,38 +19,42 @@ Child of State class that will be used to manage the system when the user is pla
 
 public class MinigameState extends State 
 {
-    //Used to keep track of the score in the minigame
-    private int score;
+
     private OrthographicCamera minigameCamera;
     private SpriteBatch minigameBatch;
 
+    //Engine the player controls
     private Engine engine;
     private ArrayList<WaterBalloon> waterBalloons;
     private ArrayList<UFO> ufos;
+    //The speed the UFOs move, applies to all directions
     private float ufoSpeed = 0.5f;
+    //Pointers to a UFO that is the furthest to the right, left, and lowest
+    //(Used to detect when UFOs have hit the side of the screen, and should move in the other direction)
     private UFO rightmostUFO, leftmostUFO, lowestUFO;
-    private UFO.Direction currentDirection= UFO.Direction.RIGHT;
+    //Keeps track of the current direction the UFOs are moving
+    private UFO.Direction currentDirection = UFO.Direction.RIGHT;
+    //How far down the UFOs should travel when they hit a wall, before moving to the other side of the screen
     private float ufoDownstepAmount = 50f;
+    //Keeps track of how far down the UFOs have traveled this step
     private float ufoDownstepCounter = 0f;
-    private int fireCooldown = 0;
+    //How many frames shold the player have to wait before firing a water balloon again
+    private final int FIRECOOLDOWN = 20;
+    //Keeps track of how many frames until a water balloon can be fired again
+    private int fireCooldownCounter = 0;
 
     public MinigameState(InputManager inputManager, BitmapFont font, StateManager stateManager, OrthographicCamera camera)
     {
         super(inputManager, font, StateID.MINIGAME, stateManager);
         this.minigameCamera = camera;
-        score = 0;
     }
 
     public void initialise()
     {
         this.minigameBatch = new SpriteBatch();
         this.minigameCamera = new OrthographicCamera();
-        //        this.minigameCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //        this.minigameCamera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
-
-
-        this.minigameCamera.setToOrtho(false,420,420);
-        this.minigameCamera.position.set(420, 420, 0);
+        this.minigameCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.minigameCamera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         this.minigameCamera.update();
         this.engine = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 01);
         this.ufos = new ArrayList<>();
@@ -58,6 +62,10 @@ public class MinigameState extends State
         this.setUpUfos();
     }
 
+    /**
+     * Called during initialisation to create new UFO objects,
+     * and set their positions.
+     */
     private void setUpUfos(){
         for (int y = 10; y < 12; y++){
             for (int x = 0; x < 5; x++) {
@@ -69,17 +77,34 @@ public class MinigameState extends State
         this.leftmostUFO = this.ufos.get(0);
     }
 
+    /**
+     * Called every time the fire button is pressed. Will create water balloon
+     * object if enough time has passed since the last one was fired.
+     */
     public void fire(){
-        if (this.fireCooldown <= 0){
-            this.fireCooldown = 10;
+        if (this.fireCooldownCounter <= 0){
+            this.fireCooldownCounter = this.FIRECOOLDOWN;
             this.waterBalloons.add(new WaterBalloon(engine.getX(), engine.getY(), AssetManager.getWaterBalloonTexture(), 2));
         }
     }
 
+    /**
+     * Called when the player pressed move left or move right, moves the position of the engine
+     * and the starting position where water balloon objects will be created.
+     * @param direction Direction to move the engine, +1 will move to the right, -1 will move the the left
+     */
     public void moveEngine(int direction){
         this.engine.setX(engine.getX() + 2 * direction);
     }
 
+    /**
+     * Checks if any water balloons are colliding with any ufos, if so both
+     * are removed from the arrays containing them. If a water balloon is
+     * touching two UFOs, only one UFO will be removed.
+     *
+     * @param waterBalloons An array of WaterBalloon objects, will remove any colliding with any UFOs
+     * @param ufos An array of UFO objects, will remove any colliding with any Water Balloons
+     */
     public void checkIfWaterHit(ArrayList<WaterBalloon> waterBalloons, ArrayList<UFO> ufos) {
         ArrayList<WaterBalloon> waterToRemove = new ArrayList<>();
         ArrayList<UFO> ufosToRemove = new ArrayList<>();
@@ -107,10 +132,14 @@ public class MinigameState extends State
         }
     }
 
+    /**
+     * Called every frame, updates game logic and checks if the minigame is over because of a win or
+     * lose condition. The state will be changed back to the main game, or to the game over state respectively.
+     */
     public void update() {
         if (this.minigameNotWon() && this.minigameNotLost()) {
 
-            this.fireCooldown -= 1;
+            this.fireCooldownCounter -= 1;
 
             this.leftmostUFO = this.ufos.get(0);
             this.rightmostUFO = this.ufos.get(0);
@@ -137,13 +166,11 @@ public class MinigameState extends State
             }
             if (this.ufoDownstepCounter < 0) {
                 for (UFO ufo : this.ufos) {
-                    ufo.time += 1;
                     ufo.move(this.currentDirection);
                 }
             } else {
                 this.ufoDownstepCounter -= this.ufoSpeed;
                 for (UFO ufo : this.ufos) {
-                    ufo.time += 1;
                     ufo.move(UFO.Direction.DOWN);
                 }
             }
@@ -161,6 +188,10 @@ public class MinigameState extends State
         }
     }
 
+    /**
+     * Called every frame to render the objects on the screen.
+     * @param batch SpriteBatch containing sprites to render
+     */
     public void render(SpriteBatch batch)
     {
         Gdx.gl.glClearColor((float) 43/255, (float) 47/255, (float) 119/255, 1);
@@ -180,6 +211,10 @@ public class MinigameState extends State
         this.minigameBatch.end();
     }
 
+    /**
+     * Checks if the game has been won or not, if so switches state back to main game.
+     * @return True if no UFOs are left, false otherwise
+     */
     public boolean minigameNotWon(){ // TODO: should delete minigame state when done with it
         if (this.ufos.size() == 0){
             this.stateManager.changeToExistingState(StateID.GAME);
@@ -188,6 +223,10 @@ public class MinigameState extends State
         return true;
     }
 
+    /**
+     * Checks if the minigame has been lost, if so switches state to game over state.
+     * @return True if the UFOs are too low, false otherwise
+     */
     public boolean minigameNotLost(){
         if (this.lowestUFO.getY() < 0){
             this.stateManager.changeState(new GameOverState(this.inputManager, this.font, this.stateManager, false));
@@ -196,9 +235,6 @@ public class MinigameState extends State
         return true;
     }
 
-    public void dispose(){
+    public void dispose(){}
 
-    }
-
-    private void returnToMainGame() {}
 }

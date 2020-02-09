@@ -13,22 +13,45 @@ public class Maths {
 
     private Maths(){ }
 
+    /**
+     * Finds the manhattan distance between two .
+     * @param x1 first points x coordinate
+     * @param y1 first points y coordinate
+     * @param x2 second points x coordinate
+     * @param y2 second points y coordinate
+     * @return manhattan distance between both points
+     */
     public static int manDistance(int x1, int y1, int x2, int y2){
         int xDif = Math.abs(x1 - x2);
         int yDif = Math.abs(y1 - y2);
         return xDif + yDif;
     }
 
+    /**
+     * Finds the manhattan distance in tiles between two entities.
+     * @param e1 An entity
+     * @param e2 Another entity
+     * @return Manhattan distance in tiles between the two entities
+     */
     public static int manDistance(Entity e1, Entity e2){
         return manDistance(e1.getCol(), e1.getRow(), e2.getCol(), e2.getRow());
     }
 
+    /**
+     * Implements A* search to find the path between two points.
+     * @param startCol starting column on the map
+     * @param startRow starting row on the map
+     * @param goalCol ending column on the map
+     * @param goalRow ending row on the map
+     * @param map map we need to find a path through
+     * @return An arraylist of tiles leading from the start to the goal, null if it couldn't find a path
+     */
     public static ArrayList<Tile> findPathTo(int startCol, int startRow, int goalCol, int goalRow, TiledGameMap map){
         class Node{
             Tile tile;
             ArrayList<Tile> tileHistory; //An array list of tiles needed to get to the goal, including the current tile
-            float traveledCost;
-            float estimatedCost;
+            float traveledCost; //Actual code to get to this tile
+            float estimatedCost; //Optimistic distance to goal
             public Node(Tile tile, ArrayList<Tile> tileHistory, float traveledCost, float estimatedCost) {
                 this.tile = tile;
                 this.tileHistory = tileHistory;
@@ -36,7 +59,8 @@ public class Maths {
                 this.estimatedCost = estimatedCost;
             }
         }
-        Comparator costComparator = new Comparator<Node>() { //Compares the cost of nodes so priority queue is ordered by it
+        Comparator costComparator = new Comparator<Node>() {
+            //Compares the cost of nodes so priority queue is ordered by it, lowest at the head
             @Override
             public int compare(Node a, Node b) {
                 if (a.estimatedCost < b.estimatedCost) {

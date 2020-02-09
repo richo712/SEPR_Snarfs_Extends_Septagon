@@ -26,6 +26,9 @@ public class AssetManager {
 
     private static final Texture fortressBoundaryImage = new Texture(Gdx.files.internal("selected fortress.png"));
 
+    //Minigame stuff
+    private static final Texture waterBalloon = new Texture(Gdx.files.internal("TEMPWaterBalloon.png"));
+
     //Getters
     public static Texture getEngineTexture1() {
         return engineTexture1;
@@ -66,5 +69,7 @@ public class AssetManager {
     public static Texture getDefeatedMinsterTexture(){ return  defeatedMinsterTexture; }
 
     public static  Texture getDefeatedStationTexture() { return defeatedStationTexture; }
+
+    public static Texture getWaterBalloonTexture(){ return waterBalloon; }
 
 }

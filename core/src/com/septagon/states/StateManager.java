@@ -65,6 +65,31 @@ public class StateManager
     	currentIndex = states.indexOf(newState);
     }
 
+    public void changeToExistingState(State.StateID id){
+        if (stateExists(id)) {
+            int currentIndex = 0;
+            for (int i = 0; i < this.states.size(); i++) {
+                if (this.states.get(i).getID() == id) {
+                    currentIndex = i;
+                }
+            }
+            this.currentIndex = currentIndex;
+        } else{
+            System.out.println("State: " + id + " doesn't exist!");
+        }
+
+    }
+
+    private boolean stateExists(State.StateID id){
+        boolean result = false;
+        for (State s: this.states){
+            if (s.getID() == id){
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
     //Getters
     public int getCurrentIndex() { return currentIndex; }
     public State getCurrentState() { return states.get(currentIndex); }

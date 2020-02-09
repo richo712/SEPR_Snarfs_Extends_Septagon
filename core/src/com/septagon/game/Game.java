@@ -13,10 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.septagon.states.GameState;
-import com.septagon.states.MenuState;
-import com.septagon.states.State;
-import com.septagon.states.StateManager;
+import com.septagon.states.*;
 
 public class Game extends ApplicationAdapter
 {

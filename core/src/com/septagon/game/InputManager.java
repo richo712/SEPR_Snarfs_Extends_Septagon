@@ -30,6 +30,9 @@ public class InputManager implements InputProcessor
     private float xCoord;
     private float yCoord;
 
+    public static boolean moveRight = false;
+    public static boolean moveLeft = false;
+
     public InputManager(OrthographicCamera camera, StateManager stateManager, BitmapFont font, SpriteBatch batch)
     {
         this.camera = camera;
@@ -165,26 +168,20 @@ public class InputManager implements InputProcessor
      * Method calls when the user presses a key on the keyboard
      * @param keycode The code of the key that is pressed
      */
-    @Override public boolean keyDown (int keycode)
-    {
-        if(stateManager.getCurrentState().getID() == State.StateID.MENU)
-        {
+    @Override public boolean keyDown (int keycode) {
+        if (stateManager.getCurrentState().getID() == State.StateID.MENU) {
             //Casts the currentState to a menuState so menuState specific methods can be used
             MenuState currentState = (MenuState) stateManager.getCurrentState();
 
             //If up or down pressed, move the menuPosition accordingly
-            if(keycode == Input.Keys.DOWN)
-            {
+            if (keycode == Input.Keys.DOWN) {
                 currentState.setMenuPosition(currentState.getMenuPosition() + 1);
-            }else if(keycode == Input.Keys.UP)
-            {
+            } else if (keycode == Input.Keys.UP) {
                 currentState.setMenuPosition(currentState.getMenuPosition() - 1);
             }
             //If enter pressed, perform action depending on the position of the menu
-            else if(keycode == Input.Keys.ENTER)
-            {
-                switch(currentState.getMenuPosition())
-                {
+            else if (keycode == Input.Keys.ENTER) {
+                switch (currentState.getMenuPosition()) {
                     case 0:
                         stateManager.changeState(new GameState(this, font, stateManager, camera));
                         break;
@@ -196,61 +193,90 @@ public class InputManager implements InputProcessor
                         break;
                 }
             }
-        }else if(stateManager.getCurrentState().getID() == State.StateID.GAME){
+        } else if (stateManager.getCurrentState().getID() == State.StateID.GAME) {
             //Cast currentState to a gameState so gameState specific methods can be used
             GameState currentState = (GameState) stateManager.getCurrentState();
 
             //If user presses escape, flip whether the game is paused or not
-            if(keycode == Input.Keys.ESCAPE){
+            if (keycode == Input.Keys.ESCAPE) {
                 currentState.setPaused(!currentState.isPaused());
             }
-            if(currentState.isPaused()){
+            if (currentState.isPaused()) {
                 //If up or down pressed, move pause position accordingly
-                if(keycode == Input.Keys.DOWN && currentState.getUiManager().getPausePosition() == 1){
+                if (keycode == Input.Keys.DOWN && currentState.getUiManager().getPausePosition() == 1) {
                     currentState.getUiManager().setPausePosition(2);
-                }else if(keycode == Input.Keys.UP && currentState.getUiManager().getPausePosition() == 2){
+                } else if (keycode == Input.Keys.UP && currentState.getUiManager().getPausePosition() == 2) {
                     currentState.getUiManager().setPausePosition(1);
                 }
 
                 //If enter pressed, perform action depending on where in the pause menu the user is
-                if(keycode == Input.Keys.ENTER){
-                    if(currentState.getUiManager().getPausePosition() == 1){
+                if (keycode == Input.Keys.ENTER) {
+                    if (currentState.getUiManager().getPausePosition() == 1) {
                         currentState.setPaused(false);
-                    }else{
+                    } else {
                         stateManager.changeState(new MenuState(this, font, stateManager, camera));
                     }
                 }
             }
+
+            //Temp switch to minigame TODO:remove this
+            if (keycode == Input.Keys.SPACE) {
+                currentState.changeStateToMinigame();
+            }
         }
 
         //Handle input for the game over state
-        else if(stateManager.getCurrentState().getID() == State.StateID.GAME_OVER){
+        else if (stateManager.getCurrentState().getID() == State.StateID.GAME_OVER) {
             //Convert the currentState variable to an instance of GameOverState
             GameOverState currentState = (GameOverState) stateManager.getCurrentState();
 
             //Move the position of the gameOverState up or down based on inputs
-            if(keycode == Input.Keys.DOWN && currentState.getPosition() == 1){
+            if (keycode == Input.Keys.DOWN && currentState.getPosition() == 1) {
                 currentState.setPosition(2);
-            }else if(keycode == Input.Keys.UP && currentState.getPosition() == 2){
+            } else if (keycode == Input.Keys.UP && currentState.getPosition() == 2) {
                 currentState.setPosition(1);
             }
             //If the enter key is pressed, perform action based on the position
-            if(keycode == Input.Keys.ENTER){
+            if (keycode == Input.Keys.ENTER) {
                 //If on yes, start a new GameState
-                if(currentState.getPosition() == 1){
+                if (currentState.getPosition() == 1) {
                     stateManager.changeState(new GameState(this, font, stateManager, camera));
                 }
                 //If on no, close the window and exit the game
-                else if(currentState.getPosition() == 2){
+                else if (currentState.getPosition() == 2) {
                     Gdx.app.exit();
                 }
             }
+        } else if (stateManager.getCurrentState().getID() == State.StateID.MINIGAME) {
+            MinigameState currentState = (MinigameState) stateManager.getCurrentState();
+            if (keycode == Input.Keys.SPACE) {
+                stateManager.changeToExistingState(State.StateID.GAME);
+            } else if (keycode == Input.Keys.RIGHT) {
+                this.moveRight = true;
+            }
+            if (keycode == Input.Keys.LEFT){
+                this.moveLeft = true;
+            }
+                //}//else if (keycode == Input.Keys.LEFT){
+                //  currentState.move(-1);
+            else if (keycode == Input.Keys.UP) {
+                    currentState.fire();
+                }
+
+            }
+            return true;
         }
-        return true;
-    }
+
 
     //Unused override methods that are required since we are implementing InputProcessor
-    @Override public boolean keyUp (int keycode) {
+    @Override
+    public boolean keyUp (int keycode) {
+        if (keycode == Input.Keys.RIGHT){
+            this.moveRight = false;
+        }
+        if (keycode == Input.Keys.LEFT){
+            this.moveLeft = false;
+        }
         return false;
     }
 

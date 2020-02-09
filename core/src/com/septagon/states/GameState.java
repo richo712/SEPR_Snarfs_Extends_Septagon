@@ -45,7 +45,6 @@ public class GameState extends State
 
     private int timePassed;
     private boolean paused = false;
-    private int minigameScore;
 
     //Loads textures and creates objects for the engines
     private ArrayList<Engine> engines;
@@ -97,6 +96,8 @@ public class GameState extends State
 
     private AttackerManager attackerManager;
 
+    private MinigameState minigameState = new MinigameState(this.inputManager, this.font,  stateManager, new OrthographicCamera());
+
     /***
      * Constructor that sets inital values for all variables and gets values of variables that are used throughout full program
      * @param inputManager The games input manager that handles all the games input
@@ -108,7 +109,6 @@ public class GameState extends State
         super(inputManager, font, StateID.GAME, stateManager);
         this.camera = camera;
         timePassed = 0;
-        minigameScore = 0;
         currentCameraX = 0;
         currentCameraY = 0;
 
@@ -368,8 +368,8 @@ public class GameState extends State
      */
     public void render(SpriteBatch batch)
     {
-        //Clear the background to red - the colour does not reall matter
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        //Clear the background to red - the colour does not really matter
+        Gdx.gl.glClearColor((float) 47/255, (float) 129/255, (float) 54/255, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Render the map and all objects for our game
@@ -423,6 +423,10 @@ public class GameState extends State
         //uiManager.setupPositions();
     }
 
+    public void changeStateToMinigame(){
+        this.stateManager.changeState(this.minigameState);
+
+    }
     //Getters and setters
 
     public int getTimePassed()
@@ -467,14 +471,6 @@ public class GameState extends State
     public boolean isPaused()
     {
         return paused;
-    }
-
-    public int getMinigameScore() {
-        return minigameScore;
-    }
-
-    public void setMinigameScore(int minigameScore) {
-        this.minigameScore = minigameScore;
     }
 
     public void setPaused(boolean paused) {

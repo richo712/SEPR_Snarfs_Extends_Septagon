@@ -116,6 +116,7 @@ public class GameState extends State
         bullets = new ArrayList<Bullet>();
     }
 
+
     /***
      * Sets up all objects in our game and gets the game ready to be played
      */

@@ -114,8 +114,6 @@ public class Alien extends Attacker {
             } else if(dest.row < this.row){
                 setY(this.y --);
             }
-            System.out.println(this.y);
-            System.out.println(this.row);
         }
         this.setPosition(dest.col, dest.row);
     }

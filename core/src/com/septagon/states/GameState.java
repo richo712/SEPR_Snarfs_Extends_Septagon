@@ -43,8 +43,9 @@ public class GameState extends State
     //Contains all the information about our game map
     private TiledGameMap gameMap;
 
-    private int timePassed;
+    private int turnNumber;
     private boolean paused = false;
+    private int minigameScore;
 
     //Loads textures and creates objects for the engines
     private ArrayList<Engine> engines;
@@ -96,8 +97,6 @@ public class GameState extends State
 
     private AttackerManager attackerManager;
 
-    private MinigameState minigameState = new MinigameState(this.inputManager, this.font,  stateManager, new OrthographicCamera());
-
     /***
      * Constructor that sets inital values for all variables and gets values of variables that are used throughout full program
      * @param inputManager The games input manager that handles all the games input
@@ -108,7 +107,8 @@ public class GameState extends State
     {
         super(inputManager, font, StateID.GAME, stateManager);
         this.camera = camera;
-        timePassed = 0;
+        turnNumber = 0;
+        minigameScore = 0;
         currentCameraX = 0;
         currentCameraY = 0;
 
@@ -121,7 +121,7 @@ public class GameState extends State
     public void initialise()
     {
         //Initialises all engines, fortress and stations in the game
-        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 01);
+        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 160, 100, 4, 01);
         engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 10, 4, 16, 100, 4, 02);
         engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 03 );
         engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 100,15,4,16, 100, 4, 04);
@@ -131,7 +131,8 @@ public class GameState extends State
         fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture());
 
         aliens = new ArrayList<Alien>();
-        alien = new Alien(1,2, 32,32, AssetManager.getEngineTexture1(), 100, 5, 4, 4, 15);
+        int[][] path = new int[][]{{0,0}, {2,2},{4,4},{6,2},{8,0},{6,0},{4,0},{2,0}};
+        alien = new Alien(1,2, 32,32, AssetManager.getEngineTexture1(), 100, 5, 4, 4, 15, path);
         aliens.add(alien);
 
         //Adds all the fortresses to the ArrayList of fortresses
@@ -263,6 +264,7 @@ public class GameState extends State
         {
             this.changingTurn = true;
             changeTurnCounter = 0;
+            turnNumber++;
         }
 
         //Updates the pointers to the current x and y positions of the camera
@@ -300,11 +302,18 @@ public class GameState extends State
             //If all fortresses have been displayed, go back to the player turn
             if(currentFortressIndex >= fortresses.size()){
                 for(Alien a: aliens){
-                    a.move(gameMap, engines);
-                    a.DamageEngineIfInRange(); //TODO: move this, not sure where it should go
+                    if(!a.isDead()) {
+                        a.move(gameMap, engines);
+                        a.DamageEngineIfInRange(); //TODO: move this, not sure where it should go
+                    }
                 }
                 for(Engine engine: engines){
                     engine.damageAliensIfInRange(aliens);
+                }
+                for(Alien a: aliens){
+                    if(a.getHealth() <= 0){
+                        a.setDead();
+                    }
                 }
                 currentFortressIndex = 0;
                 //If the fortresses have destroyed all engines, finish the game
@@ -368,8 +377,8 @@ public class GameState extends State
      */
     public void render(SpriteBatch batch)
     {
-        //Clear the background to red - the colour does not really matter
-        Gdx.gl.glClearColor((float) 47/255, (float) 129/255, (float) 54/255, 1f);
+        //Clear the background to red - the colour does not reall matter
+        Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Render the map and all objects for our game
@@ -423,16 +432,9 @@ public class GameState extends State
         //uiManager.setupPositions();
     }
 
-    public void changeStateToMinigame(){
-        this.stateManager.changeState(this.minigameState);
-
-    }
     //Getters and setters
 
-    public int getTimePassed()
-    {
-        return timePassed;
-    }
+    public int getTurnNumber() { return turnNumber; }
 
     public float getCurrentCameraX()
     {
@@ -473,13 +475,17 @@ public class GameState extends State
         return paused;
     }
 
+    public int getMinigameScore() {
+        return minigameScore;
+    }
+
+    public void setMinigameScore(int minigameScore) {
+        this.minigameScore = minigameScore;
+    }
+
     public void setPaused(boolean paused) {
         this.paused = paused;
         uiManager.setPaused(paused);
-    }
-
-    public void setTimePassed(int timePassed) {
-        this.timePassed = timePassed;
     }
 
     //public void setShouldCreateBullets(boolean shouldCreateBullets) { this.shouldCreateBullets = shouldCreateBullets; }

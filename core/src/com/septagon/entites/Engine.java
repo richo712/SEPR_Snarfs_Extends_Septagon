@@ -50,7 +50,7 @@ public class Engine extends Vehicle
     /**
      * Calls to update the required variables when the engine fires at a fortress
      */
-    public void fire(Attacker target){
+    private void fire(Attacker target){
         this.volume -= this.damage;
         target.takeDamage(this.damage);
     }
@@ -62,7 +62,7 @@ public class Engine extends Vehicle
      * @param e Entity that is being checked
      * @return returns true if there is any overlap, false otherwise
      */
-    public Boolean checkForOverlap(Entity e){
+    private Boolean checkForOverlap(Entity e){
         for(int i=0; i<2; i++){
             for(int j=2; j<4; j++){
                 if (rangeCorners.get(i) >= e.getCol() && rangeCorners.get(i) < e.getCol() + (e.getWidth()/Tile.TILE_SIZE)
@@ -96,7 +96,7 @@ public class Engine extends Vehicle
      */
     public void damageAliensIfInRange(ArrayList<Alien> aliens){
         for(Alien alien: aliens) {
-            if (Maths.manDistance(this, alien) < this.range) {
+            if ((!alien.isDead()) && ((Maths.manDistance(this, alien) < this.range))){
                 this.fire(alien);
                 GameState.bullets.add(new Bullet(this.x + 20, this.y + 10, alien.x + 16, alien.y + 16, true));
             }

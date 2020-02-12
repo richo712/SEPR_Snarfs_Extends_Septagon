@@ -93,8 +93,8 @@ public class MenuState extends State
         titleCentreX = (int)(Gdx.graphics.getWidth() / 2 - layout.width / 2);
         font.draw(menuBatch, titleLabel, titleCentreX, (Gdx.graphics.getHeight()) - 30);
 
-        drawString(menuBatch, 0, playLabel, 100, (Gdx.graphics.getHeight()) - 100);
-        drawString(menuBatch, 1, exitLabel,  100, (Gdx.graphics.getHeight()) - 150);
+        drawString(menuBatch, 0, playLabel, Gdx.graphics.getWidth() / 2, (Gdx.graphics.getHeight()) - 100);
+        drawString(menuBatch, 1, exitLabel,  Gdx.graphics.getWidth() / 2, (Gdx.graphics.getHeight()) - 150);
 
         menuBatch.end();
     }
@@ -148,10 +148,10 @@ public class MenuState extends State
      */
     private void setupRectanglePositions(){
         playBox = new Rectangle();
-        playBox.setBounds(80, Gdx.graphics.getHeight() - 130, 100, 50);
+        playBox.setBounds(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 130, 100, 50);
 
         exitBox = new Rectangle();
-        exitBox.setBounds(180, Gdx.graphics.getHeight() - 180, 100,50);
+        exitBox.setBounds(Gdx.graphics.getWidth() / 2  + 100, Gdx.graphics.getHeight() - 200, 100,50);
     }
 
     /**

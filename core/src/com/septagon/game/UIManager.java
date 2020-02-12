@@ -73,10 +73,10 @@ public class UIManager
         engineStatsRenderer = new ShapeRenderer();
         uiBatch = new SpriteBatch();
 
-        //Generate font from font file and create all the varients of it
+        //Generate font from font file and create all the variants of it
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GameFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 16;
+        parameter.size = 24;
         parameter.color = Color.GREEN;
         parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:-";
         smallFont = generator.generateFont(parameter);
@@ -163,7 +163,7 @@ public class UIManager
             if (currentEngine != null && !displayingStats)
             {
                 smallFont.setColor(Color.WHITE);
-                smallFont.draw(uiBatch, showEngineStatsText, showRectX + 5, showRectY + 20);
+                smallFont.draw(uiBatch, showEngineStatsText, showRectX + 15, showRectY + 40);
             }
             //If stats are showing, draw all the text relating to them
             else if (currentEngine != null && displayingStats)
@@ -171,11 +171,11 @@ public class UIManager
                 smallFont.setColor(Color.WHITE);
                 uiBatch.draw(currentEngine.getTexture(), statsRectX + 50, statsRectY + statsRectHeight - 70);
                 smallFont.draw(uiBatch, maxVolumeText, statsRectX + 10, statsRectY + statsRectHeight - 90);
-                smallFont.draw(uiBatch, healthText, statsRectX + 10, statsRectY + statsRectHeight - 120);
-                smallFont.draw(uiBatch, damageText, statsRectX + 10, statsRectY + statsRectHeight - 150);
-                smallFont.draw(uiBatch, rangeText, statsRectX + 10, statsRectY + statsRectHeight - 180);
-                smallFont.draw(uiBatch, speedText, statsRectX + 10, statsRectY + statsRectHeight - 210);
-                smallFont.draw(uiBatch, minimiseSymbol, minimiseX + 7, minimiseY + 15);
+                smallFont.draw(uiBatch, healthText, statsRectX + 10, statsRectY + statsRectHeight - 140);
+                smallFont.draw(uiBatch, damageText, statsRectX + 10, statsRectY + statsRectHeight - 190);
+                smallFont.draw(uiBatch, rangeText, statsRectX + 10, statsRectY + statsRectHeight - 240);
+                smallFont.draw(uiBatch, speedText, statsRectX + 10, statsRectY + statsRectHeight - 290);
+                smallFont.draw(uiBatch, minimiseSymbol, minimiseX + 17, minimiseY + 35);
             }
 
             engineStatsRenderer.end();

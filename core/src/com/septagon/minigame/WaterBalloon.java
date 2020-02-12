@@ -10,7 +10,7 @@ public class WaterBalloon extends Entity {
     int speed;
 
     public WaterBalloon(int xpos, int ypos, Texture texture, int speed){
-        super(xpos, ypos, Tile.TILE_SIZE, Tile.TILE_SIZE, texture);
+        super(xpos, ypos,  45, 45, texture);
         this.setX(xpos);
         this.setY(ypos);
         this.speed = speed;

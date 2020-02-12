@@ -36,5 +36,5 @@ public class WaterBalloon extends Entity {
         }
     }
 
-
+    public int getSpeed(){ return this.speed; }
 }

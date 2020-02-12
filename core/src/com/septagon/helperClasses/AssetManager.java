@@ -29,6 +29,7 @@ public class AssetManager {
     private static final Texture alienAliveTexture = new Texture(Gdx.files.internal("images/Alien-1.png.png"));
     private static final Texture alienDeadTexture = new Texture(Gdx.files.internal("images/Alien Dead-1.png.png"));
     //Minigame stuff
+    private static final Texture minigameInstructionTexture = new Texture(Gdx.files.internal("minigameInstructions.png"));
     private static final Texture waterBalloon = new Texture(Gdx.files.internal("TEMPWaterBalloon.png"));
 
     //Getters
@@ -75,6 +76,8 @@ public class AssetManager {
     public static Texture getAlienAliveTexture() { return alienAliveTexture; }
 
     public static Texture getAlienDeadTexture() { return alienDeadTexture; }
+
+    public static Texture getMinigameInstructionTexture(){ return minigameInstructionTexture; }
 
     public static Texture getWaterBalloonTexture(){ return waterBalloon; }
 

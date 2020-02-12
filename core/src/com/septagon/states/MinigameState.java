@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.septagon.entites.Engine;
+import com.septagon.entites.Picture;
 import com.septagon.game.InputManager;
 import com.septagon.helperClasses.AssetManager;
 import com.septagon.minigame.UFO;
@@ -20,9 +21,12 @@ Child of State class that will be used to manage the system when the user is pla
 public class MinigameState extends State 
 {
 
+
     private OrthographicCamera minigameCamera;
     private SpriteBatch minigameBatch;
 
+    Picture instructions = new Picture(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), AssetManager.getMinigameInstructionTexture());
+    public boolean showingInstructions = true;
     //Engine the player controls
     private Engine engine;
     private ArrayList<WaterBalloon> waterBalloons;
@@ -53,6 +57,7 @@ public class MinigameState extends State
 
     public void initialise()
     {
+        this.showingInstructions = true;
         this.minigameBatch = new SpriteBatch();
         this.minigameCamera = new OrthographicCamera();
         this.minigameCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -199,16 +204,22 @@ public class MinigameState extends State
         Gdx.gl.glClearColor((float) 43/255, (float) 47/255, (float) 119/255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.update();
-        this.minigameBatch.begin();
+        if (this.showingInstructions){
+            this.minigameBatch.begin();
+            this.instructions.render(minigameBatch);
+        } else {
+            this.update();
+            this.minigameBatch.begin();
 
-        this.engine.render(minigameBatch);
+            this.engine.render(minigameBatch);
 
-        for (UFO ufo : this.ufos){
-            ufo.render(minigameBatch);
-        }
-        for (WaterBalloon water: this.waterBalloons){
-            water.render(minigameBatch);
+            for (UFO ufo : this.ufos) {
+                ufo.render(minigameBatch);
+            }
+            for (WaterBalloon water : this.waterBalloons) {
+                water.render(minigameBatch);
+            }
+
         }
         this.minigameBatch.end();
     }
@@ -238,5 +249,9 @@ public class MinigameState extends State
     }
 
     public void dispose(){}
+
+    public boolean isShowingInstructions() { return this.showingInstructions; }
+
+    public void hideInstructions() { this.showingInstructions = false; }
 
 }

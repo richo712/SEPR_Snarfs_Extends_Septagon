@@ -21,7 +21,7 @@ public abstract class Entity
     protected boolean dead = false;
 
     /***
-     * Constructor that sets inital values for class members based on given input
+     * Constructor that sets initial values for class members based on given input
      */
     public Entity(int col, int row, int width, int height, Texture texture)
     {

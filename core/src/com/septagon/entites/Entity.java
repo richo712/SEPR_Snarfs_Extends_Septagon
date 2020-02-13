@@ -93,6 +93,6 @@ public abstract class Entity
     public void setTexture(Texture texture){ this.texture = texture; }
 
     public void setDead(){
-        dead = true;
+        this.dead = true;
     }
 }

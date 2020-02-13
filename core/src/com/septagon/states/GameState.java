@@ -43,8 +43,9 @@ public class GameState extends State
     //Contains all the information about our game map
     private TiledGameMap gameMap;
 
-    private int turnNumber;
-    private boolean paused = false;
+    private int turnNumber, fortDestroyedAt;
+    private int numForts = 3;
+    private boolean paused, fortDestroyed, targetStation, stationDestroyed = false;
 
     //Loads textures and creates objects for the engines
     private ArrayList<Engine> engines;
@@ -64,7 +65,7 @@ public class GameState extends State
     private Alien alien;
 
     //Loads textures and creates an object for the fire station
-    private Station fireStation;
+    public Station fireStation;
 
     //Keeps track of where in the game map the camera is currently
     private float currentCameraX, currentCameraY;
@@ -130,11 +131,11 @@ public class GameState extends State
         fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 3);
         fortressMinister = new Fortress(11, 41, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 100, 20, 3);
         fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 100, 20, 3);
-        fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture());
+        fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture(), 100);
 
         aliens = new ArrayList<Alien>();
         int[][] path = new int[][]{{0,0}, {2,2},{4,4},{6,2},{8,0},{6,0},{4,0},{2,0}};
-        alien = new Alien(1,2, 32,32, AssetManager.getEngineTexture1(), 100, 5, 4, 4, 15, path);
+        alien = new Alien(1,2, 32,32, AssetManager.getAlienTexture1(), 100, 35, 4, 20, 15, path);
         aliens.add(alien);
 
         //Adds all the fortresses to the ArrayList of fortresses
@@ -261,12 +262,53 @@ public class GameState extends State
         //Call the update method for all entities in our game
         entityManager.update();
 
-        //If all the engines have been moved on the current turn, make it the enemies turn
+        //If all the engines have been moved on the current turn, make it the enemies turn and does various checks
         if (attackerManager.allEnginesMoved())
         {
             this.changingTurn = true;
             changeTurnCounter = 0;
-            turnNumber++;
+
+            //Prevents the turn number from becoming too big, for the extreme case where it reaches the size limit
+            if(turnNumber < 999) {
+                turnNumber++;
+            }
+
+            //Improves fortresses every 20 turns
+            if(turnNumber%20 == 0){
+                for(Fortress f : fortresses){
+                    System.out.println("Fortresses improving!");
+                    f.improve();
+                }
+            }
+
+            //Checks if the station or any fortresses have been destroyed, if no : loops fortresses to check they're still alive
+            //      if yes : Remembers the current turn so the alien patrols can hunt the fire station 20 turns later
+            System.out.println("#0");
+            System.out.println(fireStation.isDead());
+            if(!fireStation.isDead()) {
+                System.out.println("#1");
+                if (!targetStation) {
+                    System.out.println("#2");
+                    if (!fortDestroyed) {
+                        System.out.println("#3"+ fortresses.size());
+                        System.out.println(fortresses.size() < numForts);
+                        if(fortresses.size() < numForts) {
+                            fortDestroyed = true;
+                            fortDestroyedAt = turnNumber;
+                            System.out.println("Fort Destroyed");
+                        }
+                    } else {
+                        if (turnNumber - fortDestroyedAt >= 1) {
+                            targetStation = true;
+                            System.out.println("Targting Station");
+                        }
+                    }
+                }
+            } else {
+                targetStation = false;
+            }
+
+            System.out.println(turnNumber);
         }
 
         //Updates the pointers to the current x and y positions of the camera
@@ -305,8 +347,11 @@ public class GameState extends State
             if(currentFortressIndex >= fortresses.size()){
                 for(Alien a: aliens){
                     if(!a.isDead()) {
-                        a.move(gameMap, engines);
-                        a.DamageEngineIfInRange(); //TODO: move this, not sure where it should go
+                        a.move(gameMap, engines, targetStation, this);
+                        a.DamageEngineIfInRange();
+                        if(targetStation) {
+                            a.DamageStationIfInRange(fireStation);
+                        }
                     }
                 }
                 for(Engine engine: engines){

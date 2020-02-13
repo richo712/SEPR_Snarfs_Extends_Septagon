@@ -40,10 +40,12 @@ public class Engine extends Vehicle
      */
     public void ifInRangeFill(Station s){
         System.out.println("Checking if should fill");
-        if(this.col <= s.getCol() + s.getWidth()/Tile.TILE_SIZE && this.col > s.getCol() && this.row >= s.getRow()-5 && this.row <= s.getRow()-1){
-            System.out.println("filling");
-            this.volume = this.maxVolume;
-            this.health = this.maxHealth;
+        if(!s.isDead()) {
+            if (this.col <= s.getCol() + s.getWidth() / Tile.TILE_SIZE && this.col > s.getCol() && this.row >= s.getRow() - 5 && this.row <= s.getRow() - 1) {
+                System.out.println("filling");
+                this.volume = this.maxVolume;
+                this.health = this.maxHealth;
+            }
         }
     }
 
@@ -96,8 +98,11 @@ public class Engine extends Vehicle
      */
     public void damageAliensIfInRange(ArrayList<Alien> aliens){
         for(Alien alien: aliens) {
-            if ((!alien.isDead()) && ((Maths.manDistance(this, alien) < this.range))){
+            if ((!alien.isDead()) && (!this.isDead()) && ((Maths.manDistance(this, alien) < this.range))){
                 this.fire(alien);
+                if(alien.health <= 0){
+                    alien.setDeadTexture();
+                }
                 GameState.bullets.add(new Bullet(this.x + 20, this.y + 10, alien.x + 16, alien.y + 16, true));
             }
         }

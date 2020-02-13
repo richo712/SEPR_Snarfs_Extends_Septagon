@@ -1,6 +1,7 @@
 package com.septagon.entites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.septagon.helperClasses.AssetManager;
 import com.septagon.helperClasses.Maths;
 import com.septagon.states.GameState;
 
@@ -28,7 +29,7 @@ public class Alien extends Attacker {
         int closestDistance = Integer.MAX_VALUE;
         for (Engine e : engines){
 
-            if (closestEngine == null){
+            if ((closestEngine == null) && (!e.isDead())){
                 closestEngine = e;
             }
 
@@ -50,20 +51,35 @@ public class Alien extends Attacker {
     }
 
     public void DamageEngineIfInRange(){
-        if (this.targetEngine != null){
+        if ((this.targetEngine != null) && (!this.targetEngine.isDead())){
             int distance = Maths.manDistance(this, this.targetEngine);
             if (distance < this.getRange()){
                 this.targetEngine.takeDamage(this.damage);
+                System.out.println(this.targetEngine.health);
+                if(this.targetEngine.health <= 0){
+                    System.out.println(this.targetEngine.isDead());
+                    System.out.println("It's dead!");
+                    this.targetEngine.setDead();
+                }
                 GameState.bullets.add(new Bullet(this.getX(), this.getY(), this.targetEngine.getX(), this.targetEngine.getY(), false));
             }
         }
-        System.out.println("Alien attacking");
+        //System.out.println("Alien attacking");
     }
 
-    public void move(TiledGameMap map, ArrayList<Engine> engines){
+    public void DamageStationIfInRange(Station fireStation){
+        int distance = Maths.manDistance(this.getCol(), this.getRow(), fireStation.getCol(), fireStation.getRow());
+        if (distance < this.getRange()) {
+            fireStation.takeDamage(this.damage);
+            GameState.bullets.add(new Bullet(this.getX(), this.getY(), fireStation.getX(), fireStation.getY(), false));
+        }
+
+    }
+
+    public void move(TiledGameMap map, ArrayList<Engine> engines, boolean targetStation, GameState state){
         findTargetEngine(engines); //Find a target
         //Get of an arrayList of tiles that give a path to that target
-        if (this.targetEngine != null) {
+        if ((this.targetEngine != null) && (!this.targetEngine.isDead())) {
             ArrayList<Tile> pathArray = Maths.findPathTo(this.col, this.row, fixCoord(this.targetCol - 1), fixCoord(this.targetRow - 1), map);
             float costTotal = 0;
             Tile targetTile = map.getTileByCoordinate(0, this.getCol(), this.getRow());
@@ -77,70 +93,46 @@ public class Alien extends Attacker {
             }
             this.setPosition(fixCoord(targetTile.getCol()), fixCoord(targetTile.getRow()));
         }else{
-            wander(map);
-            pathNum++;
-            if(pathNum >= path.length){
-                pathNum = 0;
+            if(targetStation){
+                wander(map, state.fireStation.getCol(), state.fireStation.getRow());
+
+            } else {
+                wander(map, path[pathNum][0], path[pathNum][1]);
+                pathNum++;
+                if (pathNum >= path.length) {
+                    pathNum = 0;
+                }
             }
         }
     }
 
+
     private int fixCoord(int x){
-        if(x >= 0) {
+        if(x >= 0) { //TODO add in other boundaries once map is complete
             return x;
         }
         return 0;
     }
 
-    private void moveTo(Tile dest){
-        System.out.println("MoveTo");
-        int speedCheck = 0;
-
-        for(int i = 0; i < 32; i++){
-            double loopTime = System.currentTimeMillis();
-            double curTime = loopTime;
-            while(curTime-loopTime < 30){
-                curTime = System.currentTimeMillis();
+    private void wander(TiledGameMap map, int col, int row){
+        int curX = fixCoord(col);
+        int curY = fixCoord(row);
+        ArrayList<Tile> path = Maths.findPathTo(this.col, this.row, curX, curY, map);
+        if(path.size() > this.speed) {
+            for (int i = 0; i < this.speed; i++) {
+                this.setPosition(path.get(i).col, path.get(i).row);
             }
-
-
-            if(dest.col > this.col){
-                setX(this.x ++);
-            } else if(dest.col < this.col){
-                setX(this.x --);
+        } else {
+            for(Tile i : path){
+                this.setPosition(i.col, i.row);
             }
-            if(dest.row > this.row){
-                setY(this.y ++);
-            } else if(dest.row < this.row){
-                setY(this.y --);
-            }
-        }
-        this.setPosition(dest.col, dest.row);
-    }
-
-    private void wander(TiledGameMap map){
-        int curX = fixCoord(path[pathNum][0]);
-        int curY = fixCoord(path[pathNum][1]);
-        if(Maths.manDistance(this.col, this.row, curX, curY) <= this.range) {
-            ArrayList<Tile> path = Maths.findPathTo(this.col, this.row, curX, curY, map);
-            if(path.size() > this.speed) {
-                for (int i = 0; i < this.speed; i++) {
-                    moveTo(path.get(i));
-                }
-            } else {
-                for(Tile i : path){
-                    moveTo(i);
-                }
-            }
-            //this.setPosition(curX, curY);
-        }else{
-
-
         }
     }
 
     public int getSpeed(){ return this.speed; }
     public int getVision(){ return this.vision;}
 
-    public void setDead(){ this.dead = true;}
+    public void setDeadTexture(){
+        setTexture(AssetManager.getDeadAlienTexture1());
+    }
 }

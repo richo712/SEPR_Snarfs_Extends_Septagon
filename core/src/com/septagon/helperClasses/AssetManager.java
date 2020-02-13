@@ -14,6 +14,9 @@ public class AssetManager {
     private static final Texture engineTexture2 = new Texture(Gdx.files.internal("images/engine2.png"));
     private static final Texture moveSpaceTexture = new Texture(Gdx.files.internal("move_square.png"));
 
+    private static final Texture alienTexture1 = new Texture(Gdx.files.internal("images/Alien-1.png"));
+    private static final Texture deadAlienTexture1 = new Texture(Gdx.files.internal("images/Alien Dead-1.png"));
+
     private static final Texture fortressFireTexture = new Texture(Gdx.files.internal("images/FortressFire.png"));
     private static final Texture fortressMinisterTexture = new Texture(Gdx.files.internal("images/FortressMinister.png"));
     private static final Texture fortressStationTexture = new Texture(Gdx.files.internal("images/FortressStation.png"));
@@ -41,6 +44,10 @@ public class AssetManager {
     public static Texture getMoveSpaceTexture() {
         return moveSpaceTexture;
     }
+
+    public static Texture getAlienTexture1() { return alienTexture1; }
+
+    public static Texture getDeadAlienTexture1() { return deadAlienTexture1; }
 
     public static Texture getFortressFireTexture() {
         return fortressFireTexture;

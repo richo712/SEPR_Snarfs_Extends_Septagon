@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.septagon.helperClasses.AssetManager;
 import com.septagon.states.GameState;
+import com.septagon.states.State;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Fortress extends Attacker
 {
@@ -73,11 +75,30 @@ public class Fortress extends Attacker
         super.render(batch);
     }
 
+    public void improve(){
+        if(!isDead()) {
+            int statToImprove = new Random().nextInt(3);
+            switch (statToImprove) {
+                case (0): //health
+                    int hpImprovement = (int) Math.ceil(this.maxHealth * 0.2);
+                    this.maxHealth += hpImprovement;
+                    this.health += hpImprovement;
+                    break;
+                case (1): //damage
+                    int dmgImprovement = (int) Math.ceil(this.damage * 0.2);
+                    this.damage += dmgImprovement;
+                    break;
+                case (2): //range
+                    this.range++;
+                    break;
+            }
+        }
+    }
+
     //Getters
     public boolean isSelected() { return selected; }
 
     //Setters
     public void setSelected(boolean selected) { this.selected = selected; }
-
 
 }

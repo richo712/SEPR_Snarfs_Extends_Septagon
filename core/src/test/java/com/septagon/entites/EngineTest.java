@@ -44,7 +44,7 @@ class EngineTest {
     public void testIfInRangeFill() throws Exception {
         testE.setVolume(10);
         testE.setRangeCorners();
-        Station testS = new Station(1, 1, 256, 128, null);
+        Station testS = new Station(1, 1, 256, 128, null, 100);
         testE.ifInRangeFill(testS);
         assertEquals(testE.getVolume(), 10);
     }

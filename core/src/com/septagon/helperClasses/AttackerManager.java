@@ -65,7 +65,9 @@ public class AttackerManager
     public boolean allEnginesMoved(){
         for(Engine e : engines){
             if(!e.isMoved()){
-                return false;
+                if(!e.isDead()) {
+                    return false;
+                }
             }
         }
         return true;

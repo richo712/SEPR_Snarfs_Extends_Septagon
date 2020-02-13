@@ -17,7 +17,7 @@ class StationTest {
     @BeforeEach //A set up function for the tests
     public void setUp() {
         //Texture testTexture = new Texture(Gdx.files.internal("images/fireStation.png"));
-        testS = new Station(42, 6, 256, 128, null);
+        testS = new Station(42, 6, 256, 128, null, 100);
     }
 
     @Test //A test for the Station class initialisation

@@ -250,20 +250,22 @@ public class InputManager implements InputProcessor
             }
         } else if (stateManager.getCurrentState().getID() == State.StateID.MINIGAME) {
             MinigameState currentState = (MinigameState) stateManager.getCurrentState();
-            if (keycode == Input.Keys.SPACE) {
-                stateManager.changeToExistingState(State.StateID.GAME);
-            } else if (keycode == Input.Keys.RIGHT) {
-                this.moveRight = true;
-            }
-            if (keycode == Input.Keys.LEFT){
-                this.moveLeft = true;
-            }
-                //}//else if (keycode == Input.Keys.LEFT){
-                //  currentState.move(-1);
-            else if (keycode == Input.Keys.UP) {
+            if (currentState.isShowingInstructions()){ //If any button is pressed, hide the instructions, start the minigame
+                currentState.hideInstructions();
+            } else {//Other wise game is being played
+                if (keycode == Input.Keys.SPACE) {
+                    stateManager.changeToExistingState(State.StateID.GAME);//TODO: remove this
+                }
+                if (keycode == Input.Keys.RIGHT) {
+                    this.moveRight = true;
+                }
+                if (keycode == Input.Keys.LEFT) {
+                    this.moveLeft = true;
+                }
+                if (keycode == Input.Keys.UP) {
                     currentState.fire();
                 }
-
+            }
             }
             return true;
         }

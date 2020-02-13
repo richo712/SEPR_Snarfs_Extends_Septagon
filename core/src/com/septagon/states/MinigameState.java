@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.septagon.entites.Engine;
+import com.septagon.entites.Picture;
 import com.septagon.game.InputManager;
 import com.septagon.helperClasses.AssetManager;
 import com.septagon.minigame.UFO;
@@ -20,26 +21,31 @@ Child of State class that will be used to manage the system when the user is pla
 public class MinigameState extends State 
 {
 
+
     private OrthographicCamera minigameCamera;
     private SpriteBatch minigameBatch;
 
+    Picture instructions = new Picture(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), AssetManager.getMinigameInstructionTexture());
+    public boolean showingInstructions = true;
     //Engine the player controls
     private Engine engine;
     private ArrayList<WaterBalloon> waterBalloons;
     private ArrayList<UFO> ufos;
-    //The speed the UFOs move, applies to all directions
-    private float ufoSpeed = 0.5f;
+
     //Pointers to a UFO that is the furthest to the right, left, and lowest
     //(Used to detect when UFOs have hit the side of the screen, and should move in the other direction)
     private UFO rightmostUFO, leftmostUFO, lowestUFO;
     //Keeps track of the current direction the UFOs are moving
     private UFO.Direction currentDirection = UFO.Direction.RIGHT;
+
+    //The speed the UFOs move, applies to all directions
+    private float ufoSpeed = 0.8f;
     //How far down the UFOs should travel when they hit a wall, before moving to the other side of the screen
     private float ufoDownstepAmount = 50f;
     //Keeps track of how far down the UFOs have traveled this step
     private float ufoDownstepCounter = 0f;
     //How many frames shold the player have to wait before firing a water balloon again
-    private final int FIRECOOLDOWN = 20;
+    private final int FIRECOOLDOWN = 80;
     //Keeps track of how many frames until a water balloon can be fired again
     private int fireCooldownCounter = 0;
 
@@ -51,6 +57,7 @@ public class MinigameState extends State
 
     public void initialise()
     {
+        this.showingInstructions = true;
         this.minigameBatch = new SpriteBatch();
         this.minigameCamera = new OrthographicCamera();
         this.minigameCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -67,9 +74,9 @@ public class MinigameState extends State
      * and set their positions.
      */
     private void setUpUfos(){
-        for (int y = 10; y < 12; y++){
-            for (int x = 0; x < 5; x++) {
-                this.ufos.add(new UFO(x * 2, y, AssetManager.getEngineTexture1(), 60, this.ufoSpeed));
+        for (int y = 600; y < 701; y+=100){
+            for (int x = 0; x < 500; x+=70) {
+                this.ufos.add(new UFO(x * 2, y, AssetManager.getAlienAliveTexture(), 60, this.ufoSpeed));
             }
         }
         this.lowestUFO = this.ufos.get(0);
@@ -111,7 +118,7 @@ public class MinigameState extends State
 
         for (WaterBalloon waterBalloon : waterBalloons) {
             //If the water is too high up, delete it
-            if (waterBalloon.isOutOfBounds(2000)){
+            if (waterBalloon.isOutOfBounds(Gdx.graphics.getHeight() + 500)){
                 waterToRemove.add(waterBalloon);
             } else { //Otherwise check if it is colliding with a UFO
                 for (UFO ufo : ufos) {
@@ -160,7 +167,7 @@ public class MinigameState extends State
             if (leftmostUFO.getX() < -0 && this.currentDirection == UFO.Direction.LEFT) {
                 this.ufoDownstepCounter = this.ufoDownstepAmount;
                 this.currentDirection = UFO.Direction.RIGHT;
-            } else if (rightmostUFO.getX() > 580 && this.currentDirection == UFO.Direction.RIGHT) {
+            } else if (rightmostUFO.getX() > Gdx.graphics.getWidth() - 60 && this.currentDirection == UFO.Direction.RIGHT) {
                 this.ufoDownstepCounter = this.ufoDownstepAmount;
                 this.currentDirection = UFO.Direction.LEFT;
             }
@@ -197,16 +204,22 @@ public class MinigameState extends State
         Gdx.gl.glClearColor((float) 43/255, (float) 47/255, (float) 119/255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.update();
-        this.minigameBatch.begin();
+        if (this.showingInstructions){
+            this.minigameBatch.begin();
+            this.instructions.render(minigameBatch);
+        } else {
+            this.update();
+            this.minigameBatch.begin();
 
-        this.engine.render(minigameBatch);
+            this.engine.render(minigameBatch);
 
-        for (UFO ufo : this.ufos){
-            ufo.render(minigameBatch);
-        }
-        for (WaterBalloon water: this.waterBalloons){
-            water.render(minigameBatch);
+            for (UFO ufo : this.ufos) {
+                ufo.render(minigameBatch);
+            }
+            for (WaterBalloon water : this.waterBalloons) {
+                water.render(minigameBatch);
+            }
+
         }
         this.minigameBatch.end();
     }
@@ -236,5 +249,9 @@ public class MinigameState extends State
     }
 
     public void dispose(){}
+
+    public boolean isShowingInstructions() { return this.showingInstructions; }
+
+    public void hideInstructions() { this.showingInstructions = false; }
 
 }

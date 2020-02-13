@@ -18,10 +18,10 @@ public class UFO extends Entity {
     public int time = 0;
 
     public UFO(int xpos, int ypos, Texture texture, int size, float speed){
-        super(xpos, ypos, size, size, texture);
+        super(0, 0, size, size, texture);
         this.speed = speed;
-        this.xActual = xpos * Tile.TILE_SIZE;
-        this.yActual = ypos * Tile.TILE_SIZE;
+        this.setxActual(xpos);
+        this.setyActual(ypos);
     }
 
     /**

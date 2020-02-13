@@ -8,10 +8,7 @@ package com.septagon.helperClasses;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.septagon.entites.Alien;
-import com.septagon.entites.Attacker;
-import com.septagon.entites.Engine;
-import com.septagon.entites.Fortress;
+import com.septagon.entites.*;
 
 import java.util.ArrayList;
 
@@ -23,11 +20,13 @@ public class StatusBarGenerator
     private ArrayList<Engine> engines;
     private ArrayList<Fortress> fortresses;
     private ArrayList<Alien> aliens;
+    private Station station;
 
-    public StatusBarGenerator(ArrayList<Engine> engines, ArrayList<Fortress> fortresses, ArrayList<Alien> aliens){
+    public StatusBarGenerator(ArrayList<Engine> engines, ArrayList<Fortress> fortresses, ArrayList<Alien> aliens, Station stations){
         this.engines = engines;
         this.fortresses = fortresses;
         this.aliens = aliens;
+        this.station = stations;
         barRenderer = new ShapeRenderer();
     }
 
@@ -48,6 +47,7 @@ public class StatusBarGenerator
         for(Alien a: this.aliens){
             renderHealthBarForAttacker(a);
         }
+        renderHealthBarForAttacker(this.station);
     }
 
     /**

@@ -44,7 +44,7 @@ public class GameState extends State
     private TiledGameMap gameMap;
 
     private int turnNumber, fortDestroyedAt;
-    private int numForts = 3;
+    private int numForts = 6;
     private boolean paused, fortDestroyed, targetStation, stationDestroyed = false;
 
     //Loads textures and creates objects for the engines
@@ -60,6 +60,9 @@ public class GameState extends State
     private Fortress fortressFire;
     private Fortress fortressStation;
     private Fortress fortressMinister;
+    private Fortress fortressCliffords;
+    private Fortress fortressBarbican;
+    private Fortress fortressRoyalTheatre;
 
     private ArrayList<Alien> aliens;
     private Alien alien1;
@@ -127,13 +130,16 @@ public class GameState extends State
     public void initialise()
     {
         //Initialises all engines, fortress and stations in the game
-        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 10, 4, 20, 90, 4, 01);
-        engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 13, 4, 12, 150, 4, 02);
-        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 12, 6, 10, 150, 4, 03 );
+        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 10, 3, 20, 90, 4, 01);
+        engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 120, 13, 4, 12, 150, 4, 02);
+        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 80, 12, 5, 10, 150, 4, 03 );
         engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 100,15,4,16, 100, 4, 04);
         fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 4);
-        fortressMinister = new Fortress(11, 41, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 150, 20, 3);
+        fortressMinister = new Fortress(11, 31, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 150, 20, 5);
         fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 120, 20, 3);
+        fortressCliffords = new Fortress(50, 46, 256, 256, AssetManager.getFortressCliffordsTower(), AssetManager.getDefeatedCliffordsTower(), 70, 30, 4);
+        fortressBarbican = new Fortress(80, 23, 256, 256, AssetManager.getFortressBarbican(), AssetManager.getDefeatedBarbican(), 95, 25, 3);
+        fortressRoyalTheatre = new Fortress(5, 83, 256, 256, AssetManager.getFortressRoyalTheatre(), AssetManager.getDefeatedRoyalTheatre(), 140, 18, 5);
         fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture(), 100);
 
         aliens = new ArrayList<Alien>();
@@ -155,6 +161,9 @@ public class GameState extends State
         fortresses.add(fortressFire);
         fortresses.add(fortressMinister);
         fortresses.add(fortressStation);
+        fortresses.add(fortressCliffords);
+        fortresses.add(fortressBarbican);
+        fortresses.add(fortressRoyalTheatre);
 
         //Sets the engines positions so that they start from the fireStation
         engine1.setCol(fireStation.getCol() + 5);
@@ -221,7 +230,7 @@ public class GameState extends State
         }
 
         //Initialises the statusBarRenderer object
-        statusBarGenerator = new StatusBarGenerator(engines, fortresses, aliens);
+        statusBarGenerator = new StatusBarGenerator(engines, fortresses, aliens, fireStation);
 
         //Sets up all the occupied tiles on the map so they cannot be moved to
         tileManager = new TileManager(engines, tiles);
@@ -280,13 +289,17 @@ public class GameState extends State
             this.changingTurn = true;
             changeTurnCounter = 0;
 
-            //Prevents the turn number from becoming too big, for the extreme case where it reaches the size limit
+            //Prevents the turn number from becoming too big, for the extreme case where it reaches the size limit of an int in Java
             if(turnNumber < 999) {
                 turnNumber++;
             }
 
-            //Improves fortresses every 20 turns
-            if(turnNumber%20 == 0){
+            if(turnNumber == 20){
+                changeStateToMinigame();
+            }
+
+            //Improves fortresses every 15 turns
+            if(turnNumber%15 == 0){
                 for(Fortress f : fortresses){
                     System.out.println("Fortresses improving!");
                     f.improve();
@@ -294,7 +307,7 @@ public class GameState extends State
             }
 
             //Checks if the station or any fortresses have been destroyed, if no : loops fortresses to check they're still alive
-            //      if yes : Remembers the current turn so the alien patrols can hunt the fire station 20 turns later
+            //      if yes : Remembers the current turn so the alien patrols can hunt the fire station 25 turns later
             if(!fireStation.isDead()) {
                 if (!targetStation) {
                     if (!fortDestroyed) {
@@ -304,7 +317,7 @@ public class GameState extends State
                             System.out.println("Fort Destroyed");
                         }
                     } else {
-                        if (turnNumber - fortDestroyedAt >= 15) {
+                        if (turnNumber - fortDestroyedAt >= 25) {
                             targetStation = true;
                             System.out.println("Targting Station");
                         }
@@ -416,7 +429,7 @@ public class GameState extends State
         else
         {
             counter++;
-            if(counter >= 80){
+            if(counter >= 50){
                 hasChangedFortress = false;
                 currentFortressIndex++;
                 counter = 0;

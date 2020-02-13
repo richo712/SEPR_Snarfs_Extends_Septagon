@@ -62,7 +62,10 @@ public class GameState extends State
     private Fortress fortressMinister;
 
     private ArrayList<Alien> aliens;
-    private Alien alien;
+    private Alien alien1;
+    private Alien alien2;
+    private Alien alien3;
+    private Alien alien4;
 
     //Loads textures and creates an object for the fire station
     public Station fireStation;
@@ -124,19 +127,28 @@ public class GameState extends State
     public void initialise()
     {
         //Initialises all engines, fortress and stations in the game
-        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 160, 100, 4, 01);
-        engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 10, 4, 16, 100, 4, 02);
-        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 03 );
+        engine1 = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 10, 4, 20, 90, 4, 01);
+        engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 100, 13, 4, 12, 150, 4, 02);
+        engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 100, 12, 6, 10, 150, 4, 03 );
         engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 100,15,4,16, 100, 4, 04);
-        fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 3);
-        fortressMinister = new Fortress(11, 41, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 100, 20, 3);
-        fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 100, 20, 3);
+        fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 4);
+        fortressMinister = new Fortress(11, 41, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 150, 20, 3);
+        fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 120, 20, 3);
         fireStation = new Station(42, 6, 256, 128, AssetManager.getFireStationTexture(), 100);
 
         aliens = new ArrayList<Alien>();
-        int[][] path = new int[][]{{0,0}, {2,2},{4,4},{6,2},{8,0},{6,0},{4,0},{2,0}};
-        alien = new Alien(1,2, 32,32, AssetManager.getAlienTexture1(), 100, 35, 4, 20, 15, path);
-        aliens.add(alien);
+        int[][] path = new int[][]{{5,5}, {8,5},{11,5},{11,8},{8,8},{5,11},{5,14},{5,17},{8,17},{11,14},{11,11},{8,8}};
+        alien1 = new Alien(5,5, 32,32, AssetManager.getAlienTexture1(), 100, 5, 4, 3, 15, path);;
+        path = new int[][]{{25,25}, {28,25},{31,25},{31,28},{28,28},{25,31},{25,34},{25,37},{28,37},{31,34},{31,31},{28,28}};
+        alien2 = new Alien(25,25, 32,32, AssetManager.getAlienTexture1(), 150, 3, 5, 4, 12, path);;
+        path = new int[][]{{55,55}, {58,55},{61,55},{61,58},{58,58},{55,61},{55,64},{55,67},{58,67},{61,64},{61,61},{58,58}};
+        alien3 = new Alien(55,55, 32,32, AssetManager.getAlienTexture1(), 80, 8, 3, 8, 10, path);
+        path = new int[][]{{65,35}, {68,35},{71,35},{71,38},{68,38},{65,41},{65,44},{65,47},{68,47},{71,44},{71,41},{68,38}};
+        alien4 = new Alien(65,35, 32,32, AssetManager.getAlienTexture1(), 80, 8, 3, 8, 10, path);
+        aliens.add(alien1);
+        aliens.add(alien2);
+        aliens.add(alien3);
+        aliens.add(alien4);
 
         //Adds all the fortresses to the ArrayList of fortresses
         fortresses = new ArrayList<Fortress>();
@@ -283,22 +295,16 @@ public class GameState extends State
 
             //Checks if the station or any fortresses have been destroyed, if no : loops fortresses to check they're still alive
             //      if yes : Remembers the current turn so the alien patrols can hunt the fire station 20 turns later
-            System.out.println("#0");
-            System.out.println(fireStation.isDead());
             if(!fireStation.isDead()) {
-                System.out.println("#1");
                 if (!targetStation) {
-                    System.out.println("#2");
                     if (!fortDestroyed) {
-                        System.out.println("#3"+ fortresses.size());
-                        System.out.println(fortresses.size() < numForts);
                         if(fortresses.size() < numForts) {
                             fortDestroyed = true;
                             fortDestroyedAt = turnNumber;
                             System.out.println("Fort Destroyed");
                         }
                     } else {
-                        if (turnNumber - fortDestroyedAt >= 1) {
+                        if (turnNumber - fortDestroyedAt >= 15) {
                             targetStation = true;
                             System.out.println("Targting Station");
                         }
@@ -410,7 +416,7 @@ public class GameState extends State
         else
         {
             counter++;
-            if(counter >= 10){
+            if(counter >= 80){
                 hasChangedFortress = false;
                 currentFortressIndex++;
                 counter = 0;

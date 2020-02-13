@@ -29,8 +29,7 @@ public class AssetManager {
 
     private static final Texture fortressBoundaryImage = new Texture(Gdx.files.internal("selected fortress.png"));
 
-    private static final Texture alienAliveTexture = new Texture(Gdx.files.internal("images/Alien-1.png.png"));
-    private static final Texture alienDeadTexture = new Texture(Gdx.files.internal("images/Alien Dead-1.png.png"));
+    private static final Texture alienAliveTexture = new Texture(Gdx.files.internal("images/Alien-1.png"));
     //Minigame stuff
     private static final Texture minigameInstructionTexture = new Texture(Gdx.files.internal("minigameInstructions.png"));
     private static final Texture waterBalloon = new Texture(Gdx.files.internal("TEMPWaterBalloon.png"));
@@ -72,17 +71,13 @@ public class AssetManager {
         return fortressBoundaryImage;
     }
 
-    public static Texture getDefeatedFireTexture() {
-        return defeatedFireTexture;
-    }
+    public static Texture getDefeatedFireTexture() { return defeatedFireTexture; }
 
     public static Texture getDefeatedMinsterTexture(){ return  defeatedMinsterTexture; }
 
     public static  Texture getDefeatedStationTexture() { return defeatedStationTexture; }
 
     public static Texture getAlienAliveTexture() { return alienAliveTexture; }
-
-    public static Texture getAlienDeadTexture() { return alienDeadTexture; }
 
     public static Texture getMinigameInstructionTexture(){ return minigameInstructionTexture; }
 

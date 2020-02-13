@@ -20,10 +20,16 @@ public class AssetManager {
     private static final Texture fortressFireTexture = new Texture(Gdx.files.internal("images/FortressFire.png"));
     private static final Texture fortressMinisterTexture = new Texture(Gdx.files.internal("images/FortressMinister.png"));
     private static final Texture fortressStationTexture = new Texture(Gdx.files.internal("images/FortressStation.png"));
+    private static final Texture fortressCliffordsTower = new Texture(Gdx.files.internal("images/FortressClifford'stower.png"));
+    private static final Texture fortressBarbican = new Texture(Gdx.files.internal("images/FortressBarbican.png"));
+    private static final Texture fortressRoyalTheatre = new Texture(Gdx.files.internal("images/FortressRoyalTheatre.png"));
 
     private static final Texture defeatedFireTexture = new Texture(Gdx.files.internal("images/DefeatedOldStation.png"));
     private static final Texture defeatedMinsterTexture = new Texture(Gdx.files.internal("images/DefeatedMinster.png"));
     private static final Texture defeatedStationTexture = new Texture(Gdx.files.internal("images/DefeatedRailStation.png"));
+    private static final Texture defeatedCliffordsTower = new Texture(Gdx.files.internal("images/DefeatedTower.png"));
+    private static final Texture defeatedBarbican = new Texture(Gdx.files.internal("images/DefeatedBarbican.png"));
+    private static final Texture defeatedRoyalTheatre = new Texture(Gdx.files.internal("images/DefeatedRoyalTheatre.png"));
 
     private static final Texture fireStationTexture = new Texture(Gdx.files.internal("images/fireStation.png"));
 
@@ -67,6 +73,12 @@ public class AssetManager {
         return fireStationTexture;
     }
 
+    public static Texture getFortressCliffordsTower() { return fortressCliffordsTower; }
+
+    public static Texture getFortressBarbican(){ return fortressBarbican; }
+
+    public static Texture getFortressRoyalTheatre(){ return fortressRoyalTheatre; }
+
     public static Texture getFortressBoundaryImage() {
         return fortressBoundaryImage;
     }
@@ -76,6 +88,12 @@ public class AssetManager {
     public static Texture getDefeatedMinsterTexture(){ return  defeatedMinsterTexture; }
 
     public static  Texture getDefeatedStationTexture() { return defeatedStationTexture; }
+
+    public static Texture getDefeatedCliffordsTower(){ return defeatedCliffordsTower; }
+
+    public static Texture getDefeatedBarbican(){ return defeatedBarbican; }
+
+    public static Texture getDefeatedRoyalTheatre(){ return defeatedRoyalTheatre; }
 
     public static Texture getAlienAliveTexture() { return alienAliveTexture; }
 

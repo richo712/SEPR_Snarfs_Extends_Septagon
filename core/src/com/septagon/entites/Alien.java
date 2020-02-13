@@ -3,6 +3,7 @@ package com.septagon.entites;
 import com.badlogic.gdx.graphics.Texture;
 import com.septagon.helperClasses.AssetManager;
 import com.septagon.helperClasses.Maths;
+import com.septagon.helperClasses.TileManager;
 import com.septagon.states.GameState;
 
 import java.util.*;
@@ -19,9 +20,6 @@ public class Alien extends Attacker {
         this.vision = vision;
         this.path = path;
         this.pathNum = 0;
-    }
-    public void update(){
-
     }
 
     private void findTargetEngine(ArrayList<Engine> engines){

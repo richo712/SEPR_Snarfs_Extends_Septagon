@@ -14,6 +14,23 @@ public class Maths {
     private Maths(){ }
 
     /**
+     * Checks if two entity's are overlapping.
+     * @param e1 The first Entity.
+     * @param e2 The second Entity.
+     * @return
+     */
+    public static boolean isColliding(Entity e1, Entity e2){
+        //If an entity is to the right or left side of the other
+        if(e1.getX() + e1.getWidth() < e2.getX() || e1.getX() > e2.getX() + e2.getWidth()){
+            return false;
+        }
+        //If an entity is above or below the other
+        if(e1.getY() + e1.getHeight() < e2.getY() || e1.getY() > e2.getY() + e2.getHeight()){
+            return false;
+        }
+        return true;
+    }
+    /**
      * Finds the manhattan distance between two .
      * @param x1 first points x coordinate
      * @param y1 first points y coordinate
@@ -44,7 +61,7 @@ public class Maths {
      * @param goalCol ending column on the map
      * @param goalRow ending row on the map
      * @param map map we need to find a path through
-     * @return An arraylist of tiles leading from the start to the goal, null if it couldn't find a path
+     * @return An arrayList of tiles leading from the start to the goal, null if it couldn't find a path
      */
     public static ArrayList<Tile> findPathTo(int startCol, int startRow, int goalCol, int goalRow, TiledGameMap map){
         class Node{

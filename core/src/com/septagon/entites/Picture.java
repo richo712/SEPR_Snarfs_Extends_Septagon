@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Picture extends Entity {
 
     /***
-     * Constructor that sets inital values for class members based on given input.
+     * Constructor that sets initial values for class members based on given input.
      * @param x X coordinate of bottom left hand corner.
      * @param y Y coordinate of bottom left hand .
      * @param width Width of picture.

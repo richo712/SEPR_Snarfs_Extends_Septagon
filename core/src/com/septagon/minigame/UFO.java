@@ -47,20 +47,6 @@ public class UFO extends Entity {
     }
 
     /**
-     * Checks if UFO is colliding with a specific water balloon.
-     * @param waterBalloon
-     * @return True if colliding, false otherwise
-     */
-    public boolean isCollidingWith(WaterBalloon waterBalloon){
-        if (this.getX() <= waterBalloon.getX() && this.getX() + this.getWidth() >= waterBalloon.getX()){
-            if(this.getY() <= waterBalloon.getY() && this.getY() + this.getHeight() >= waterBalloon.getY()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Sets xActual, also calls setX(), the X value corresponds to the position the UFO is,
      * the xActual is just so fine changes aren't lost to rounding.
      * @param x a float the xActual will be set to

@@ -9,8 +9,8 @@ public class WaterBalloon extends Entity {
     //Speed the water balloon will move vertically
     int speed;
 
-    public WaterBalloon(int xpos, int ypos, Texture texture, int speed){
-        super(xpos, ypos,  45, 45, texture);
+    public WaterBalloon(int xpos, int ypos, Texture texture, int size, int speed){
+        super(0, 0,  size, size, texture);
         this.setX(xpos);
         this.setY(ypos);
         this.speed = speed;

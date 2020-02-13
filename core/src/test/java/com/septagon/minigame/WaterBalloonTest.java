@@ -11,7 +11,7 @@ public class WaterBalloonTest {
 
     @BeforeEach
     public void setUp() {
-        wat = new WaterBalloon(1,1, null, 1);
+        wat = new WaterBalloon(1,1, null, 45, 1);
     }
 
     @Test

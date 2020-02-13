@@ -9,6 +9,7 @@ import com.septagon.entites.Engine;
 import com.septagon.entites.Picture;
 import com.septagon.game.InputManager;
 import com.septagon.helperClasses.AssetManager;
+import com.septagon.helperClasses.Maths;
 import com.septagon.minigame.UFO;
 import com.septagon.minigame.WaterBalloon;
 
@@ -44,7 +45,7 @@ public class MinigameState extends State
     private float ufoDownstepAmount = 50f;
     //Keeps track of how far down the UFOs have traveled this step
     private float ufoDownstepCounter = 0f;
-    //How many frames shold the player have to wait before firing a water balloon again
+    //How many frames should the player have to wait before firing a water balloon again
     private final int FIRECOOLDOWN = 80;
     //Keeps track of how many frames until a water balloon can be fired again
     private int fireCooldownCounter = 0;
@@ -91,7 +92,7 @@ public class MinigameState extends State
     public void fire(){
         if (this.fireCooldownCounter <= 0){
             this.fireCooldownCounter = this.FIRECOOLDOWN;
-            this.waterBalloons.add(new WaterBalloon(engine.getX(), engine.getY(), AssetManager.getWaterBalloonTexture(), 2));
+            this.waterBalloons.add(new WaterBalloon(engine.getX(), engine.getY(), AssetManager.getWaterBalloonTexture(), 45, 1));
         }
     }
 
@@ -122,7 +123,7 @@ public class MinigameState extends State
                 waterToRemove.add(waterBalloon);
             } else { //Otherwise check if it is colliding with a UFO
                 for (UFO ufo : ufos) {
-                    if (ufo.isCollidingWith(waterBalloon)) { //If so, mark both water and UFO to be removed
+                    if (Maths.isColliding(ufo, waterBalloon)){//If so, mark both water and UFO to be removed
                         waterToRemove.add(waterBalloon);
                         ufosToRemove.add(ufo);
                         break;

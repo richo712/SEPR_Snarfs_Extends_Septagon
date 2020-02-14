@@ -219,11 +219,6 @@ public class InputManager implements InputProcessor
                     }
                 }
             }
-
-            //Temp switch to minigame TODO:remove this
-            if (keycode == Input.Keys.SPACE) {
-                currentState.changeStateToMinigame();
-            }
         }
 
         //Handle input for the game over state

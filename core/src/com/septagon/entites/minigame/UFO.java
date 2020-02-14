@@ -1,8 +1,7 @@
-package com.septagon.minigame;
+package com.septagon.entites.minigame;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.septagon.entites.Entity;
-import com.septagon.entites.Tile;
 
 public class UFO extends Entity {
 

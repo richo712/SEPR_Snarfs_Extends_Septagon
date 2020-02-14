@@ -10,8 +10,8 @@ import com.septagon.entites.Picture;
 import com.septagon.game.InputManager;
 import com.septagon.helperClasses.AssetManager;
 import com.septagon.helperClasses.Maths;
-import com.septagon.minigame.UFO;
-import com.septagon.minigame.WaterBalloon;
+import com.septagon.entites.minigame.UFO;
+import com.septagon.entites.minigame.WaterBalloon;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class MinigameState extends State
     Picture instructions = new Picture(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), AssetManager.getMinigameInstructionTexture());
     public boolean showingInstructions = true;
     //Engine the player controls
-    private Engine engine;
+    private Picture engine;
     private ArrayList<WaterBalloon> waterBalloons;
     private ArrayList<UFO> ufos;
 
@@ -64,7 +64,7 @@ public class MinigameState extends State
         this.minigameCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.minigameCamera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         this.minigameCamera.update();
-        this.engine = new Engine(0,0, AssetManager.getEngineTexture1(), 100, 15, 4, 16, 100, 4, 01);
+        this.engine = new Picture(0,0, 50, 50, AssetManager.getEngineTexture1());
         this.ufos = new ArrayList<>();
         this.waterBalloons = new ArrayList<>();
         this.setUpUfos();

@@ -50,7 +50,7 @@ public class TiledGameMap
 		//Gets the cell (format used by Tiled) at the current location
 		Cell cell = ((TiledMapTileLayer)tiledMap.getLayers().get(0)).getCell(col, row);
 
-		if(cell.getTile().getId() >= 400 && cell.getTile().getId() <= 550){
+		if(cell.getTile().getId() == 395){
 			return true;
 		}
 		return false;

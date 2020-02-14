@@ -39,8 +39,8 @@ class AttackerTest {
     public void testCheckForOverlap() throws Exception {
         //Texture testTexture = new Texture(Gdx.files.internal("images/engine1.png"));
         //Texture testTexture2 = new Texture(Gdx.files.internal("images/FortressMinister.png"));
-        Fortress testF1 = new Fortress(2, 2, 256, 256, null, null,100, 20, 3);
-        Fortress testF2 = new Fortress(10, 10, 256, 256, null, null, 100, 20, 3);
+        Fortress testF1 = new Fortress(2, 2, 256, 256, null, null,100, 20, 3, 6, 4);
+        Fortress testF2 = new Fortress(10, 10, 256, 256, null, null, 100, 20, 3, 5, 5);
         testCA.setRangeCorners();
     }
 

@@ -20,14 +20,28 @@ public class Fortress extends Attacker
     //Stores if an engine is currently active/pressed on
     private boolean selected = false;
     private Texture defeatedTexture;
+    private int xBound,yBound;
 
-    /***
+    /**
      * Constructor that calls the Entity constructor to set up all the member variables
+     * @param col Starting column
+     * @param row Starting row
+     * @param width Entity width
+     * @param height Entity height
+     * @param texture Initial sprite texture
+     * @param defeatedTexture Sprite texture when flooded
+     * @param health Maximum / starting health
+     * @param damage Damage dealt to targets
+     * @param range Attack range in tiles
+     * @param xBound Width of object in tiles for blocking
+     * @param yBound Height of object in tiles for blocking
      */
-    public Fortress(int col, int row, int width, int height, Texture texture, Texture defeatedTexture, int health, int damage, int range)
+    public Fortress(int col, int row, int width, int height, Texture texture, Texture defeatedTexture, int health, int damage, int range, int xBound, int yBound)
     {
         super(col,row, width, height, texture, health, damage, range);
         this.defeatedTexture = defeatedTexture;
+        this.xBound = xBound;
+        this.yBound = yBound;
     }
 
 
@@ -75,6 +89,10 @@ public class Fortress extends Attacker
         super.render(batch);
     }
 
+    /**
+     * Method used to improve the stats of fortresses when called from GameState
+     * Improves a random stat (all equal chance) between Health, Damage, and Range
+     */
     public void improve(){
         if(!isDead()) {
             int statToImprove = new Random().nextInt(3);
@@ -97,6 +115,10 @@ public class Fortress extends Attacker
 
     //Getters
     public boolean isSelected() { return selected; }
+
+    public int getxBound() { return xBound; }
+
+    public int getyBound() { return yBound; }
 
     //Setters
     public void setSelected(boolean selected) { this.selected = selected; }

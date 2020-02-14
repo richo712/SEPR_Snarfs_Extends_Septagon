@@ -16,7 +16,14 @@ public class Bullet {
     float x, y, targetX, targetY;
     public boolean remove = false;
 
-    //creates a bullet with attacker and target positions
+    /**
+     * Constructor for setting up new Bullets
+     * @param attackerX X coordinate of the attacker
+     * @param attackerY Y coordinate of the attacker
+     * @param targetX X coordinate of the target
+     * @param targetY Y coordinate of the target
+     * @param water True if Fire Engines are attacking, false otherwise
+     */
     public Bullet (float attackerX, float attackerY, float targetX, float targetY, boolean water) {
         this.x = attackerX;
         this.y = attackerY;

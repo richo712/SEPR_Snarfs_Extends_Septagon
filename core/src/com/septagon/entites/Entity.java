@@ -20,8 +20,13 @@ public abstract class Entity
     //boolean value for if the entity is dead
     protected boolean dead = false;
 
-    /***
-     * Constructor that sets initial values for class members based on given input
+    /**
+     * Constructor that sets initial values for class members based on given input from child classes
+     * @param col Starting column
+     * @param row Starting row
+     * @param width Entity width
+     * @param height Entity height
+     * @param texture Entity texture
      */
     public Entity(int col, int row, int width, int height, Texture texture)
     {

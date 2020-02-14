@@ -22,8 +22,18 @@ public class Engine extends Vehicle
     //Keeps track of whether the engine has moved on the current player turn
     private boolean moved = false;
 
-    /***
+    /**
      * Constructor that Sets up the member variables for engine
+     * @param col Starting column
+     * @param row Starting row
+     * @param texture Entity texture
+     * @param health Max health of the fire engine
+     * @param damage Damage the fire engine deals to targets
+     * @param range Attack range in tiles
+     * @param speed Movement range in tiles
+     * @param maxVolume Maximum amount of water the fire engine can hold
+     * @param fillSpeed Speed at which the fire engine should refill
+     * @param id Unique identifier
      */
     public Engine(int col, int row, Texture texture, int health, int damage, int range, int speed, int maxVolume, int fillSpeed, Integer id) {
         super(col, row, texture, health, damage, range, speed);

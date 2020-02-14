@@ -17,7 +17,7 @@ class FortressTest {
     @BeforeEach //A set up function for the tests
     public void setUp() {
         //Texture testTexture = new Texture(Gdx.files.internal("images/FortressMinister.png"));
-        testF = new Fortress(4, 10, 256, 256, null, null, 100, 20, 3);
+        testF = new Fortress(4, 10, 256, 256, null, null, 100, 20, 3, 5, 4);
     }
 
     @Test //A test for the Fortress class initialisation

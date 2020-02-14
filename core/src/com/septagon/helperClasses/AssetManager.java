@@ -14,8 +14,14 @@ public class AssetManager {
     private static final Texture engineTexture2 = new Texture(Gdx.files.internal("images/engine2.png"));
     private static final Texture moveSpaceTexture = new Texture(Gdx.files.internal("move_square.png"));
 
-    private static final Texture alienTexture1 = new Texture(Gdx.files.internal("images/Alien-1.png"));
-    private static final Texture deadAlienTexture1 = new Texture(Gdx.files.internal("images/Alien Dead-1.png"));
+    private static final Texture alienTexture1 = new Texture(Gdx.files.internal("images/AlienPurp.png"));
+    private static final Texture deadAlienTexture1 = new Texture(Gdx.files.internal("images/AlienPurpDead.png"));
+    private static final Texture alienTexture2 = new Texture(Gdx.files.internal("images/AlienBlue.png"));
+    private static final Texture deadAlienTexture2 = new Texture(Gdx.files.internal("images/AlienBlueDead.png"));
+    private static final Texture alienTexture3 = new Texture(Gdx.files.internal("images/AlienYellow.png"));
+    private static final Texture deadAlienTexture3 = new Texture(Gdx.files.internal("images/AlienYellowDead.png"));
+    private static final Texture alienTexture4 = new Texture(Gdx.files.internal("images/AlienRed.png"));
+    private static final Texture deadAlienTexture4 = new Texture(Gdx.files.internal("images/AlienRedDead.png"));
 
     private static final Texture fortressFireTexture = new Texture(Gdx.files.internal("images/FortressFire.png"));
     private static final Texture fortressMinisterTexture = new Texture(Gdx.files.internal("images/FortressMinister.png"));
@@ -35,7 +41,7 @@ public class AssetManager {
 
     private static final Texture fortressBoundaryImage = new Texture(Gdx.files.internal("selected fortress.png"));
 
-    private static final Texture alienAliveTexture = new Texture(Gdx.files.internal("images/Alien-1.png"));
+    private static final Texture alienAliveTexture = new Texture(Gdx.files.internal("images/AlienPurp.png"));
     //Minigame stuff
     private static final Texture minigameInstructionTexture = new Texture(Gdx.files.internal("minigameInstructions.png"));
     private static final Texture waterBalloon = new Texture(Gdx.files.internal("TEMPWaterBalloon.png"));
@@ -56,6 +62,18 @@ public class AssetManager {
     public static Texture getAlienTexture1() { return alienTexture1; }
 
     public static Texture getDeadAlienTexture1() { return deadAlienTexture1; }
+
+    public static Texture getAlienTexture2(){ return alienTexture2; }
+
+    public static Texture getDeadAlienTexture2(){ return deadAlienTexture2; }
+
+    public static Texture getAlienTexture3(){ return alienTexture3; }
+
+    public static Texture getDeadAlienTexture3(){ return deadAlienTexture3; }
+
+    public static Texture getAlienTexture4(){ return alienTexture4; }
+
+    public static Texture getDeadAlienTexture4(){ return deadAlienTexture4; }
 
     public static Texture getFortressFireTexture() {
         return fortressFireTexture;

@@ -8,29 +8,56 @@ import com.septagon.states.GameState;
 
 import java.util.*;
 
+/**
+ * Class used to define and control all Alien Patrols within the game
+ */
+
 public class Alien extends Attacker {
 
     private int speed, vision, targetCol, targetRow, pathNum;
     private Engine targetEngine;
     private int[][] path;
+    private int id;
 
-    public Alien(int col, int row, int width, int height, Texture texture, int health, int damage, int range, int speed, int vision, int[][] path){
+    /**
+     * Constructor for the Alien class
+     * @param col Starting column
+     * @param row Starting row
+     * @param width Entity width
+     * @param height Entity height
+     * @param texture Entity texture
+     * @param health Alien max health
+     * @param damage Damage alien deals to targets
+     * @param range Attack range in tiles
+     * @param speed Movement Speed in tiles
+     * @param vision Range of vision in tiles
+     * @param path Patrol path
+     * @param id Unique identifier
+     */
+    public Alien(int col, int row, int width, int height, Texture texture, int health, int damage, int range, int speed, int vision, int[][] path, int id){
         super(col, row, width, height, texture, health, damage, range);
         this.speed = speed;
         this.vision = vision;
         this.path = path;
         this.pathNum = 0;
+        this.id = id;
     }
 
+    /**
+     * Method which finds the closest fire engine to the selected alien
+     * @param engines ArrayList of engines in the game to be checked
+     */
     private void findTargetEngine(ArrayList<Engine> engines){
         Engine closestEngine = null;
         int closestDistance = Integer.MAX_VALUE;
         for (Engine e : engines){
 
+            //If no target, and current selection isn't dead, set target to current selection
             if ((closestEngine == null) && (!e.isDead())){
                 closestEngine = e;
             }
 
+            //Gets the distance of the selected engine. If less than the current "closestEngine", sets as the new "closestEngine"
             int distance = Maths.manDistance(this.getCol(), this.getRow(), e.getCol(), e.getRow());
             if( distance < this.vision && (distance < closestDistance) ){
                 closestEngine = e;
@@ -38,6 +65,7 @@ public class Alien extends Attacker {
                 }
 
             }
+        //Sets the "closestEngine" as the target if within line of sight
         if (closestDistance < this.vision) {
             this.targetRow = closestEngine.getRow();
             this.targetCol = closestEngine.getCol();
@@ -48,23 +76,31 @@ public class Alien extends Attacker {
 
     }
 
+    /**
+     * Method which handles Aliens attacking their targeted Fire Engine
+     */
     public void DamageEngineIfInRange(){
-        if ((this.targetEngine != null) && (!this.targetEngine.isDead())){
+
+        if ((this.targetEngine != null) && (!this.targetEngine.isDead())) {
             int distance = Maths.manDistance(this, this.targetEngine);
-            if (distance < this.getRange()){
+
+            if (distance < this.getRange()) {
+                System.out.println("Alien attacking");
                 this.targetEngine.takeDamage(this.damage);
                 System.out.println(this.targetEngine.health);
-                if(this.targetEngine.health <= 0){
-                    System.out.println(this.targetEngine.isDead());
-                    System.out.println("It's dead!");
+
+                if (this.targetEngine.health <= 0) {
                     this.targetEngine.setDead();
                 }
                 GameState.bullets.add(new Bullet(this.getX(), this.getY(), this.targetEngine.getX(), this.targetEngine.getY(), false));
             }
         }
-        //System.out.println("Alien attacking");
     }
 
+    /**
+     * Method which handles Aliens attacking the Fire Station
+     * @param fireStation Station object. The user's base Fire Station
+     */
     public void DamageStationIfInRange(Station fireStation){
         int distance = Maths.manDistance(this.getCol(), this.getRow(), fireStation.getCol(), fireStation.getRow());
         if (distance < this.getRange()) {
@@ -74,8 +110,19 @@ public class Alien extends Attacker {
 
     }
 
-    public void move(TiledGameMap map, ArrayList<Engine> engines, boolean targetStation, GameState state){
+    /**
+     * Method to handle movement of the Aliens around the game map
+     *
+     * @param tileManager TileManager object for setting tile traits
+     * @param map TiledGameMap object of the current game map for finding distances
+     * @param engines ArrayList of Engines used for finding which is the current target
+     * @param targetStation Boolean: True if aliens should move towards and attack the Fire Station
+     * @param state Current GameState
+     */
+    public void move(TileManager tileManager, TiledGameMap map, ArrayList<Engine> engines, boolean targetStation, GameState state){
+        tileManager.getTileAtLocation(this.col, this.row).setOccupied(false);
         findTargetEngine(engines); //Find a target
+
         //Get of an arrayList of tiles that give a path to that target
         if ((this.targetEngine != null) && (!this.targetEngine.isDead())) {
             ArrayList<Tile> pathArray = Maths.findPathTo(this.col, this.row, fixCoord(this.targetCol - 1), fixCoord(this.targetRow - 1), map);
@@ -91,10 +138,10 @@ public class Alien extends Attacker {
             }
             this.setPosition(fixCoord(targetTile.getCol()), fixCoord(targetTile.getRow()));
         }else{
-            if(targetStation){
+            if(targetStation){ //If no fire engines in range, proceed towards the fire station
                 wander(map, state.fireStation.getCol(), state.fireStation.getRow());
 
-            } else {
+            } else { //If no target, continue on patrol
                 wander(map, path[pathNum][0], path[pathNum][1]);
                 pathNum++;
                 if (pathNum >= path.length) {
@@ -102,9 +149,14 @@ public class Alien extends Attacker {
                 }
             }
         }
+        tileManager.getTileAtLocation(this.col, this.row).setOccupied(true);
     }
 
-
+    /**
+     * Method to ensure the Aliens dont try and move to a negative grid position
+     * @param x Co-ordinate to check
+     * @return Parameter 'x' if it's non-negative, otherwise 0
+     */
     private int fixCoord(int x){
         if(x >= 0) { //TODO add in other boundaries once map is complete
             return x;
@@ -112,6 +164,12 @@ public class Alien extends Attacker {
         return 0;
     }
 
+    /**
+     * Method to handle patrol-like movement of the Alien
+     * @param map Current game map used to find paths
+     * @param col Column to move to
+     * @param row Row to move to
+     */
     private void wander(TiledGameMap map, int col, int row){
         int curX = fixCoord(col);
         int curY = fixCoord(row);
@@ -127,10 +185,30 @@ public class Alien extends Attacker {
         }
     }
 
+    //Getters
+
     public int getSpeed(){ return this.speed; }
-    public int getVision(){ return this.vision;}
+
+    public int getVision(){ return this.vision; }
+
+    //Setters
 
     public void setDeadTexture(){
         setTexture(AssetManager.getDeadAlienTexture1());
+        switch(id){
+            case(0):
+                setTexture(AssetManager.getDeadAlienTexture1());
+                break;
+            case(1):
+                setTexture(AssetManager.getDeadAlienTexture2());
+                break;
+            case(2):
+                setTexture(AssetManager.getDeadAlienTexture3());
+                break;
+            case(3):
+                setTexture(AssetManager.getDeadAlienTexture4());
+                break;
+
+        }
     }
 }

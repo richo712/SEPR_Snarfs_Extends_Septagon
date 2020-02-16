@@ -16,12 +16,12 @@ public class AssetManager {
 
     private static final Texture alienTexture1 = new Texture(Gdx.files.internal("images/AlienPurp.png"));
     private static final Texture deadAlienTexture1 = new Texture(Gdx.files.internal("images/AlienPurpDead.png"));
-    private static final Texture alienTexture2 = new Texture(Gdx.files.internal("images/AlienBlue.png"));
-    private static final Texture deadAlienTexture2 = new Texture(Gdx.files.internal("images/AlienBlueDead.png"));
-    private static final Texture alienTexture3 = new Texture(Gdx.files.internal("images/AlienYellow.png"));
-    private static final Texture deadAlienTexture3 = new Texture(Gdx.files.internal("images/AlienYellowDead.png"));
-    private static final Texture alienTexture4 = new Texture(Gdx.files.internal("images/AlienRed.png"));
-    private static final Texture deadAlienTexture4 = new Texture(Gdx.files.internal("images/AlienRedDead.png"));
+    private static final Texture alienTexture2 = new Texture(Gdx.files.internal("images/alienBlue.png"));
+    private static final Texture deadAlienTexture2 = new Texture(Gdx.files.internal("images/alienBlueDead.png"));
+    private static final Texture alienTexture3 = new Texture(Gdx.files.internal("images/alienYellow.png"));
+    private static final Texture deadAlienTexture3 = new Texture(Gdx.files.internal("images/alienYellowDead.png"));
+    private static final Texture alienTexture4 = new Texture(Gdx.files.internal("images/alienRed.png"));
+    private static final Texture deadAlienTexture4 = new Texture(Gdx.files.internal("images/alienRedDead.png"));
 
     private static final Texture fortressFireTexture = new Texture(Gdx.files.internal("images/FortressFire.png"));
     private static final Texture fortressMinisterTexture = new Texture(Gdx.files.internal("images/FortressMinister.png"));

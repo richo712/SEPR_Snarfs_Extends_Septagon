@@ -14,14 +14,14 @@ public class WaterBalloonTest {
 
     @BeforeEach
     public void setUp() {
-        wat = new WaterBalloon(1,1, null, 45, 1);
+        wat = new WaterBalloon(1,1, null, 45, 1f);
     }
 
     @Test
     public void waterBalloonTest(){
         assertEquals(wat.getX(), 1);
         assertEquals(wat.getY(), 1);
-        assertEquals(wat.getSpeed(), 1);
+        assertEquals(wat.getSpeed(), 1f);
         assertEquals(wat.getTexture(), null);
     }
 
@@ -30,7 +30,7 @@ public class WaterBalloonTest {
         wat.move();
         assertEquals(wat.getY(), 2);
         assertEquals(wat.getX(), 1);
-        wat.setY(-100);
+        wat.setyActual(-100);
         wat.move();
         assertEquals(wat.getY(), -99);
         assertEquals(wat.getX(), 1);
@@ -38,19 +38,19 @@ public class WaterBalloonTest {
 
     @Test
     public void isNotOutOfBoundsTest(){
-        wat.setY(99);
+        wat.setyActual(99);
         assertFalse(wat.isOutOfBounds(100));
-        wat.setX(150);
+        wat.setxActual(150);
         assertFalse(wat.isOutOfBounds(100));
-        wat.setY(-150);
+        wat.setyActual(-150);
         assertFalse(wat.isOutOfBounds(100));
     }
 
     @Test
     public void isOutOfBoundsTest(){
-        wat.setY(20);
+        wat.setyActual(20);
         assertTrue(wat.isOutOfBounds(10));
-        wat.setY(-1);
+        wat.setxActual(-1);
         assertTrue(wat.isOutOfBounds(-100));
     }
 }

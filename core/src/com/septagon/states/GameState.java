@@ -219,7 +219,7 @@ public class GameState extends State
 
         //Sets up the camera parameters and moves it to its inital position
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.x = gameMap.getMapWidth() * Tile.TILE_SIZE - Gdx.graphics.getWidth() / 2;
+        camera.position.x = gameMap.getMapWidth() * Tile.TILE_SIZE - Gdx.graphics.getWidth()*3;
         camera.update();
 
         //Create objects referring to all tiles in game

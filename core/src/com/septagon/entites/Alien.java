@@ -10,6 +10,7 @@ import java.util.*;
 
 /**
  * Class used to define and control all Alien Patrols within the game
+ * Everything within this Class is new for Assessment 3
  */
 
 public class Alien extends Attacker {
@@ -155,13 +156,16 @@ public class Alien extends Attacker {
     /**
      * Method to ensure the Aliens dont try and move to a negative grid position
      * @param x Co-ordinate to check
-     * @return Parameter 'x' if it's non-negative, otherwise 0
+     * @return Parameter 'x' that is modified to be within the boundaries of the map
      */
     private int fixCoord(int x){
-        if(x >= 0) { //TODO add in other boundaries once map is complete
+        if(x >= 0 && x <= 199) {
             return x;
+        } else if(x < 0){
+            return 0;
+        } else {
+            return 199;
         }
-        return 0;
     }
 
     /**

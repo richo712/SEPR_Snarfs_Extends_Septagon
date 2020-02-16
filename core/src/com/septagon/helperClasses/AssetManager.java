@@ -3,6 +3,8 @@ package com.septagon.helperClasses;
 /**
  * Class used to load in all the textures to the game so that they only have to loaded once and
  *  can be accessed anywhere in the program (since all the textures are static)
+ *  Alien textures, the final 3 fortresses, and textures related to the minigame are new
+ *  for Assessemnt 3
  */
 
 import com.badlogic.gdx.Gdx;

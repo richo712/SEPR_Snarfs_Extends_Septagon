@@ -16,7 +16,8 @@ import com.septagon.entites.minigame.WaterBalloon;
 import java.util.ArrayList;
 
 /**
-Child of State class that will be used to manage the system when the user is playing the minigame
+ * Child of State class that will be used to manage the system when the user is playing the minigame
+ * All the content in this Class is new for Assessment 3
  */
 
 public class MinigameState extends State 

@@ -12,8 +12,8 @@ import com.septagon.game.InputManager;
 
 import java.awt.*;
 
-/*
-Child of the State class that will be used to manage the system when the user is in the menu
+/**
+ * Child of the State class that will be used to manage the system when the user is in the menu
  */
 
 public class MenuState extends State

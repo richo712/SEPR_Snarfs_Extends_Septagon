@@ -17,7 +17,7 @@ import com.septagon.helperClasses.TileManager;
 
 import java.util.ArrayList;
 
-/*
+/**
 Child class of the State class that will manage the system when the user is in the game
  */
 
@@ -64,7 +64,7 @@ public class GameState extends State
     private Fortress fortressBarbican;
     private Fortress fortressRoyalTheatre;
 
-    //Creates objects for the aliens
+    //Creates objects for the aliens, new for Assessment 3
     private ArrayList<Alien> aliens;
     private Alien alien1;
     private Alien alien2;
@@ -127,6 +127,7 @@ public class GameState extends State
 
     /***
      * Sets up all objects in our game and gets the game ready to be played
+     * The setup of the Aliens and the final 2 Engines and 3 Fortresses are new for Assessment 3
      */
     public void initialise()
     {
@@ -135,20 +136,20 @@ public class GameState extends State
         engine2 = new Engine(0,0, AssetManager.getEngineTexture2(), 120, 13, 4, 12, 150, 4, 02);
         engine3 = new Engine(0, 0, AssetManager.getEngineTexture1(), 135, 12, 5, 10, 150, 4, 03 );
         engine4 = new Engine(0,0,AssetManager.getEngineTexture2(), 85,15,4,16, 100, 4, 04);
-        fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 100, 20, 4, 8, 4);
-        fortressMinister = new Fortress(11, 31, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 150, 20, 5, 8, 7);
-        fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 120, 20, 3, 8, 4);
-        fortressCliffords = new Fortress(50, 46, 256, 256, AssetManager.getFortressCliffordsTower(), AssetManager.getDefeatedCliffordsTower(), 70, 30, 4, 8, 7);
-        fortressBarbican = new Fortress(80, 23, 256, 256, AssetManager.getFortressBarbican(), AssetManager.getDefeatedBarbican(), 95, 25, 3, 8, 8);
-        fortressRoyalTheatre = new Fortress(5, 83, 256, 256, AssetManager.getFortressRoyalTheatre(), AssetManager.getDefeatedRoyalTheatre(), 140, 18, 5, 8, 8);
-        fireStation = new Station(55, 11, 256, 128, AssetManager.getFireStationTexture(), 100, 8, 4);
+        fortressFire = new Fortress(4, 10, 256, 256, AssetManager.getFortressFireTexture(), AssetManager.getDefeatedFireTexture(), 120, 20, 4, 8, 4);
+        fortressMinister = new Fortress(11, 31, 256, 256, AssetManager.getFortressMinisterTexture(), AssetManager.getDefeatedMinsterTexture(), 170, 20, 5, 8, 7);
+        fortressStation = new Fortress(31, 30, 256, 256, AssetManager.getFortressStationTexture(), AssetManager.getDefeatedStationTexture(), 140, 20, 3, 8, 4);
+        fortressCliffords = new Fortress(50, 46, 256, 256, AssetManager.getFortressCliffordsTower(), AssetManager.getDefeatedCliffordsTower(), 90, 30, 4, 8, 7);
+        fortressBarbican = new Fortress(80, 23, 256, 256, AssetManager.getFortressBarbican(), AssetManager.getDefeatedBarbican(), 115, 25, 3, 8, 8);
+        fortressRoyalTheatre = new Fortress(5, 83, 256, 256, AssetManager.getFortressRoyalTheatre(), AssetManager.getDefeatedRoyalTheatre(), 160, 18, 5, 8, 8);
+        fireStation = new Station(55, 11, 256, 128, AssetManager.getFireStationTexture(), 150, 8, 4);
 
         //Initialises all aliens and adds them to the ArrayList of Aliens
         aliens = new ArrayList<Alien>();
         int[][] path = new int[][]{{12,5}, {16,5},{20,5},{20,9},{16,9},{12,13},{12,17},{12,21},{16,21},{20,17},{16,13},{12,9}};
-        alien1 = new Alien(5,5, 32,32, AssetManager.getAlienTexture1(), 100, 5, 4, 4, 15, path, 0);;
+        alien1 = new Alien(5,5, 32,32, AssetManager.getAlienTexture1(), 90, 5, 4, 4, 15, path, 0);;
         path = new int[][]{{25,25}, {31,25},{37,25},{43,31},{43,37},{49,37},{43,40},{37,43},{31,40},{25,37},{25,31},{25,25}};
-        alien2 = new Alien(25,25, 32,32, AssetManager.getAlienTexture2(), 150, 3, 5, 6, 12, path, 1);;
+        alien2 = new Alien(25,25, 32,32, AssetManager.getAlienTexture2(), 128, 3, 5, 6, 12, path, 1);;
         path = new int[][]{{55,55}, {60,55},{60,60},{65,65},{65,62},{68,58},{70,65},{68,65},{63,65},{65,60},{60,60},{60,55}};
         alien3 = new Alien(55,55, 32,32, AssetManager.getAlienTexture3(), 80, 8, 3, 8, 10, path, 2);
         path = new int[][]{{65,35}, {68,30},{75,30},{75,38},{75,45},{70,40},{70,35},{65,30},{58,25},{56,20},{60,28},{65,30}};
@@ -280,6 +281,7 @@ public class GameState extends State
 
     /**
      * Method that handles all of the updating for the player turn
+     * Things making use of the turn counter are new for Assessment 3
      */
     private void playerTurnUpdate(){
         //Call the update method for all entities in our game
@@ -292,14 +294,14 @@ public class GameState extends State
             changeTurnCounter = 0;
 
             //Prevents the turn number from becoming too big, for the extreme case where it reaches the size limit of an int in Java
-            if(turnNumber < 999) {
+            if(turnNumber < 9999) {
                 turnNumber++;
             } else if (!fireStation.isDead() && !targetStation){ //Ensures the aliens can still target the station. They should've found it by turn 1000.
                 targetStation = true;
             }
 
             //Triggers the minigame at the start of player turn 25
-            if(turnNumber == 25){
+            if(turnNumber == 30){
                 changeStateToMinigame();
             }
 
@@ -313,6 +315,7 @@ public class GameState extends State
 
             //Checks if the station or any fortresses have been destroyed, if no : loops fortresses to check they're still alive
             //      if yes : Remembers the current turn so the alien patrols can hunt the fire station 25 turns later
+            //      New for Assessment 3
             if(!fireStation.isDead()) {
                 if (!targetStation) {
                     if (!fortDestroyed) {
@@ -324,7 +327,7 @@ public class GameState extends State
                     } else {
                         if (turnNumber - fortDestroyedAt >= 25) {
                             targetStation = true;
-                            System.out.println("Targting Station");
+                            System.out.println("Targeting Station");
                         }
                     }
                 }
@@ -361,6 +364,7 @@ public class GameState extends State
 
     /**
      * Method that handles all the updating that should happen on an enemies turn
+     * Code handling Alien behaviour is new for Assessment 3
      */
     private void enemyTurnUpdate(){
         boolean shouldShowFortress = false;
@@ -506,6 +510,7 @@ public class GameState extends State
 
     /**
      * Method which changes the current Game State to the Mini-game state
+     * New for Assessment 3
      */
     public void changeStateToMinigame(){
         this.stateManager.changeState(this.minigameState);

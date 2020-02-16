@@ -167,6 +167,7 @@ public class InputManager implements InputProcessor
 
     /**
      * Method calls when the user presses a key on the keyboard
+     * The Mini-game section of this Method is new (line 247)
      * @param keycode The code of the key that is pressed
      */
     @Override public boolean keyDown (int keycode) {

@@ -21,6 +21,7 @@ public class Fortress extends Attacker
     private boolean selected = false;
     private Texture defeatedTexture;
     private int xBound,yBound;
+    private int initHp, initDmg, initRng;
 
     /**
      * Constructor that calls the Entity constructor to set up all the member variables
@@ -42,6 +43,9 @@ public class Fortress extends Attacker
         this.defeatedTexture = defeatedTexture;
         this.xBound = xBound;
         this.yBound = yBound;
+        this.initHp = health;
+        this.initDmg = damage;
+        this.initRng = range;
     }
 
 
@@ -92,22 +96,29 @@ public class Fortress extends Attacker
     /**
      * Method used to improve the stats of fortresses when called from GameState
      * Improves a random stat (all equal chance) between Health, Damage, and Range
+     * This method is new for Assessment 3
      */
     public void improve(){
         if(!isDead()) {
             int statToImprove = new Random().nextInt(3);
             switch (statToImprove) {
                 case (0): //health
-                    int hpImprovement = (int) Math.ceil(this.maxHealth * 0.2);
-                    this.maxHealth += hpImprovement;
-                    this.health += hpImprovement;
+                    int hpImprovement = (int) Math.ceil(this.initHp * 0.2); //Modifies stats based on their initial  values, rather than current values
+                    if(this.maxHealth + hpImprovement <= initHp * 2) { //"if" checks to ensure the stats are appropriately capped
+                        this.maxHealth += hpImprovement;
+                        this.health += hpImprovement;
+                    }
                     break;
                 case (1): //damage
-                    int dmgImprovement = (int) Math.ceil(this.damage * 0.2);
-                    this.damage += dmgImprovement;
+                    int dmgImprovement = (int) Math.ceil(this.initDmg * 0.2);
+                    if(this.damage + dmgImprovement <= initDmg * 2) {
+                        this.damage += dmgImprovement;
+                    }
                     break;
                 case (2): //range
-                    this.range++;
+                    if(this.range < initRng * 1.5) {
+                        this.range++;
+                    }
                     break;
             }
         }

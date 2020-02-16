@@ -3,7 +3,7 @@ package com.septagon.entites;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * ASSESSMENT_3
+ * This Class is new for Assessment 3
  * Bare-bones implementation of entity,
  * used to render pictures.
  */

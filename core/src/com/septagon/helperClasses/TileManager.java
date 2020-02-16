@@ -36,6 +36,7 @@ public class TileManager {
 
     /***
      * Sets up the tiles which contain an engine, fortress or the station to be occupied
+     * All of this method was changed for Assessment 3, except the Engines loop
      */
     public void setOccupiedTiles(TiledGameMap gameMap)
     {

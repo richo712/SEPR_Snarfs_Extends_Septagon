@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
 public class Maths {
 
     /**
-     * ASSESSMENT_3
+     * This Class is new for Assessment 3
      */
     private Maths(){ }
 

@@ -104,6 +104,7 @@ public class Engine extends Vehicle
 
     /**
      * Checks if engine can attack an ArrayList of aliens, it will spawn water and damage each one in range
+     * This method is new for Assessment 3
      * @param aliens - ArrayList of aliens to see if engine can attack
      */
     public void damageAliensIfInRange(ArrayList<Alien> aliens){

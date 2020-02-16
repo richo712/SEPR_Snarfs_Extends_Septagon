@@ -1,15 +1,15 @@
-package com.septagon.minigame;
+package com.septagon.entites.minigame;
 
 import com.badlogic.gdx.graphics.Texture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UFOTest {
-
+    /**
+     * ASSESSMENT_3
+     */
     UFO testufo = null;
     Texture testure = null;
 

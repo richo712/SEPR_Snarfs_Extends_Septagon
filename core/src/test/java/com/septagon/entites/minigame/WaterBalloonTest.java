@@ -1,11 +1,14 @@
-package com.septagon.minigame;
+package com.septagon.entites.minigame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WaterBalloonTest {
+
+    /**
+     * ASSESSMENT_3
+     */
 
     WaterBalloon wat = null;
 

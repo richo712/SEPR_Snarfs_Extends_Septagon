@@ -3,7 +3,6 @@ package com.septagon.helperClasses;
 import com.septagon.entites.Entity;
 import com.septagon.entites.Tile;
 import com.septagon.entites.TiledGameMap;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -11,6 +10,9 @@ import java.util.PriorityQueue;
 
 public class Maths {
 
+    /**
+     * ASSESSMENT_3
+     */
     private Maths(){ }
 
     /**

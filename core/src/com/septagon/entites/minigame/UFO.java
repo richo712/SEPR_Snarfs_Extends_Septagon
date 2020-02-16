@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.septagon.entites.Entity;
 
 public class UFO extends Entity {
-
+    /**
+     * ASSESSMENT_3
+     */
     //Distance UFO can travel each time move is called
     float speed;
     //Stores x and y coordinates in a float so position is more accurate, and speed can be set to non ints

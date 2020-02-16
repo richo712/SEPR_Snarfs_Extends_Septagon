@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.septagon.entites.Entity;
 
 public class WaterBalloon extends Entity {
-
+    /**
+     * ASSESSMENT_3
+     */
     //Speed the water balloon will move vertically
     float speed;
     float xActual, yActual;

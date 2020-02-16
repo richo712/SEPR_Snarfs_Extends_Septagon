@@ -1,14 +1,16 @@
-package com.septagon.minigame;
+package com.septagon.entites.minigame;
 
+import com.septagon.entites.Engine;
 import com.septagon.entites.Entity;
 import com.septagon.helperClasses.Maths;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MathsTest {
-
+    /**
+     * ASSESSMENT_3
+     */
     @Test
     public void isCollidingTest(){
         Entity e1 = new WaterBalloon(0,0,null,10, 0);
@@ -41,5 +43,18 @@ public class MathsTest {
         assertFalse(Maths.isColliding(e1,e2));
         e1.setX(11);
         assertFalse(Maths.isColliding(e1,e2));
+    }
+
+    @Test
+    public void manDistanceTest(){
+        assertEquals(0, Maths.manDistance(0,0,0,0));
+        assertEquals(15, Maths.manDistance(0,0,0,15));
+        assertEquals(15, Maths.manDistance(0,0,15,0));
+        assertEquals(10, Maths.manDistance(0,0,5,5));
+        assertEquals(10, Maths.manDistance(-10,0,0,0));
+        assertEquals(10, Maths.manDistance(0,-10,0,0));
+        Engine e1 = new Engine(0, 0, null, 1, 1, 1, 1, 1, 1, 1);
+        Engine e2 = new Engine(3, 3, null, 1, 1, 1, 1, 1, 1, 1);
+        assertEquals(6, Maths.manDistance(e1, e2));
     }
 }

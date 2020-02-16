@@ -8,9 +8,9 @@ public class UFO extends Entity {
      * ASSESSMENT_3
      */
     //Distance UFO can travel each time move is called
-    float speed;
+    private float speed;
     //Stores x and y coordinates in a float so position is more accurate, and speed can be set to non ints
-    float xActual, yActual;
+    private float xActual, yActual;
     //Used in move() to tell UFO which way it should move
     public enum Direction{
         LEFT, RIGHT, DOWN
@@ -66,4 +66,16 @@ public class UFO extends Entity {
         this.yActual = y;
         this.setY(Math.round(y));
     }
+
+    public float getSpeed(){
+        return this.speed;
+    }
+    public float getxActual(){
+        return xActual;
+    }
+
+    public float getyActual(){
+        return yActual;
+    }
+
 }

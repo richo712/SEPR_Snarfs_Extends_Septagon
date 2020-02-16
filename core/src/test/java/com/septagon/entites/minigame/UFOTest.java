@@ -20,23 +20,37 @@ class UFOTest {
 
     @Test
     public void UFOtest() {
-        assertEquals(testufo.xActual, 1);
+        assertEquals(testufo.getxActual(), 1);
+        assertEquals(testufo.getyActual(), 1);
+        assertEquals(testufo.getSpeed(), 0.5f);
+    }
+
+
+    @Test
+    public void setxActualTest() {
+        testufo.setxActual(10f);
+        assertEquals(testufo.getxActual(),10f);
+        testufo.setxActual(90.9f);
+        assertEquals(testufo.getxActual(), 90.9f);
 
     }
 
     @Test
-    public void isCollidingWith() {
+    public void setyActualTest() {
+        testufo.setyActual(5f);
+        assertEquals(testufo.getyActual(),5f);
+        testufo.setyActual(50.5f);
+        assertEquals(testufo.getyActual(),50.5f);
     }
 
     @Test
-    public void setxActual() {
-        testufo.setxActual(1f);
-        assertEquals(1f,1f);
-    }
-
-    @Test
-    public void setyActual() {
-        testufo.setyActual(1f);
-        assertEquals(1f,1f);
+    public void moveTest(){
+        testufo.move(UFO.Direction.RIGHT);
+        assertEquals(testufo.getxActual(), 1.5f);
+        testufo.setxActual(50f);
+        testufo.move(UFO.Direction.LEFT);
+        assertEquals(testufo.getxActual(), 49.5f);
+        testufo.setyActual(100f);
+        testufo.setxActual(100f);
     }
 }

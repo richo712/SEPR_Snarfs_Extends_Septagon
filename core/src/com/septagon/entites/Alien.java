@@ -48,7 +48,7 @@ public class Alien extends Attacker {
      * Method which finds the closest fire engine to the selected alien
      * @param engines ArrayList of engines in the game to be checked
      */
-    private void findTargetEngine(ArrayList<Engine> engines){
+    public void findTargetEngine(ArrayList<Engine> engines){
         Engine closestEngine = null;
         int closestDistance = Integer.MAX_VALUE;
         for (Engine e : engines){
@@ -158,7 +158,7 @@ public class Alien extends Attacker {
      * @param x Co-ordinate to check
      * @return Parameter 'x' that is modified to be within the boundaries of the map
      */
-    private int fixCoord(int x){
+    public int fixCoord(int x){
         if(x >= 0 && x <= 199) {
             return x;
         } else if(x < 0){
@@ -194,6 +194,8 @@ public class Alien extends Attacker {
     public int getSpeed(){ return this.speed; }
 
     public int getVision(){ return this.vision; }
+
+    public Engine getTargetEngine(){ return this.targetEngine; }
 
     //Setters
 
